@@ -268,7 +268,7 @@ export default function Navigation() {
       </Dialog>
 
       <header className="relative bg-white">
-        <p className="flex h-10 items-center justify-center bg-indigo-600 px-4 text-sm font-medium text-white sm:px-6 lg:px-8">
+        <p className="flex h-10 items-center justify-center bg-purple-900 px-4 text-sm font-medium text-white sm:px-6 lg:px-8">
           Get free delivery on orders over $100
         </p>
 
@@ -291,7 +291,7 @@ export default function Navigation() {
                   <span className="sr-only">Your Company</span>
                   <img
                     alt=""
-                    src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600"
+                    src="https://cdn.iconscout.com/icon/premium/png-512-thumb/letter-v-5015672-4169285.png?f=webp&w=512"
                     className="h-8 w-auto"
                   />
                 </a>
