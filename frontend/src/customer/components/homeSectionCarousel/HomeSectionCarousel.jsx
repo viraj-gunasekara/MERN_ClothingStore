@@ -3,9 +3,8 @@ import AliceCarousel from "react-alice-carousel";
 import HomeSectionCard from "../homeSectionCard/HomeSectionCard";
 import { Button } from "@mui/material";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import { mens_kurta } from "../../../productsData/mens_kurta";
 
-const HomeSectionCarousel = () => {
+const HomeSectionCarousel = ({data, sectionName}) => {
   const carouselRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -15,7 +14,7 @@ const HomeSectionCarousel = () => {
     1024: { items: 5.5 },
   };
 
-  const items = mens_kurta.slice(0,10).map((item, index) => 
+  const items = data.slice(0,10).map((item, index) => 
   <HomeSectionCard key={index} product={item}/>);
 
   const handleSlideChange = (e) => {
@@ -24,6 +23,7 @@ const HomeSectionCarousel = () => {
 
   return (
     <div className="relative px-4 sm:px-6 lg:px-8 ">
+      <h2 className="text-2xl font-extrabold text-gray-900 py-5">{sectionName}</h2>
       <div className="relative border p-5">
         <AliceCarousel
           ref={carouselRef}
