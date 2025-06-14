@@ -41,6 +41,7 @@ export default function Navigation() {
     close();
   };
 
+  // =======================START===================
   return (
     <div className="bg-white pb-10">
       {/* Mobile menu */}
@@ -208,6 +209,7 @@ export default function Navigation() {
         </Dialog>
       </Transition.Root>
 
+      {/* header banner */}
       <header className="relative bg-white">
         <p className="flex h-10 items-center justify-center bg-purple-900 px-4 text-sm font-medium text-white sm:px-6 lg:px-8">
           Get free delivery on orders over $100
@@ -216,6 +218,7 @@ export default function Navigation() {
         <nav aria-label="Top" className="mx-auto">
           <div className="border-b border-gray-200">
             <div className="flex h-16 items-center px-11">
+              {/* Mobile Menu 3bar btn  */}
               <button
                 type="button"
                 className="rounded-md bg-white p-2 text-gray-400 lg:hidden"
@@ -225,7 +228,7 @@ export default function Navigation() {
                 <Bars3Icon className="h-6 w-6" aria-hidden="true" />
               </button>
 
-              {/* Logo */}
+              {/* Company Logo */}
               <div className="ml-4 flex lg:ml-0">
                 <Link to="/">
                   <span className="sr-only">Your Company</span>
@@ -389,15 +392,7 @@ export default function Navigation() {
                       >
                         V
                       </Avatar>
-                      {/* <Button
-                        id="basic-button"
-                        aria-controls={open ? "basic-menu" : undefined}
-                        aria-haspopup="true"
-                        aria-expanded={open ? "true" : undefined}
-                        onClick={handleUserClick}
-                      >
-                        Dashboard
-                      </Button> */}
+          
                       <Menu
                         id="basic-menu"
                         anchorEl={anchorEl}
