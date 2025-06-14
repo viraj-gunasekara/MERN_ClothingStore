@@ -31,6 +31,8 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 
+import FilterListIcon from '@mui/icons-material/FilterList';
+
 const sortOptions = [
   { name: "Price: Low to High", href: "#", current: false },
   { name: "Price: High to Low", href: "#", current: false },
@@ -221,7 +223,10 @@ export default function Product() {
               {/* Filters */}
               <>
                 <div>
-                  <h1 className="text-lg opacity-50 font-bold">Filters</h1>
+                  <div className="py-10 flex justify-between items-center">
+                    <h1 className="text-lg opacity-50 font-bold">Filters</h1>
+                    <FilterListIcon/>
+                  </div>
                   <form className="hidden lg:block">
                     {filters.map((section) => (
                       <Disclosure
