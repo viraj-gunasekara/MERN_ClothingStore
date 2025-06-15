@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { StarIcon } from "@heroicons/react/20/solid";
 import { Radio, RadioGroup } from "@headlessui/react";
-import { Rating } from "@mui/material";
+import { Button, Rating } from "@mui/material";
 
 const product = {
   name: "Basic Tee 6-Pack",
@@ -49,14 +49,10 @@ const product = {
     },
   ],
   sizes: [
-    { name: "XXS", inStock: false },
-    { name: "XS", inStock: true },
     { name: "S", inStock: true },
     { name: "M", inStock: true },
     { name: "L", inStock: true },
     { name: "XL", inStock: true },
-    { name: "2XL", inStock: true },
-    { name: "3XL", inStock: true },
   ],
   description:
     'The Basic Tee 6-Pack allows you to fully express your vibrant personality with three grayscale options. Feeling adventurous? Put on a heather gray tee. Want to be a trendsetter? Try our exclusive colorway: "Black". Need to add an extra pop of color to your outfit? Our white tee has you covered.',
@@ -173,7 +169,6 @@ export default function ProductDetails() {
               {/* Reviews */}
               <div className="mt-6">
                 <h3 className="sr-only">Reviews</h3>
-
                 <div className="flex items-center space-x-3">
                   <Rating
                     name="read-only"
@@ -181,7 +176,6 @@ export default function ProductDetails() {
                     precision={0.5}
                     readOnly
                   />
-
                   <p className="opacity-60 text-sm">214 Ratings</p>
                   <p className="ml-3 text-sm font-medium text-indigo-600 hover:text-indigo-500">
                     19 Reviews
@@ -189,24 +183,13 @@ export default function ProductDetails() {
                 </div>
               </div>
 
-
-
-
-
               <form className="mt-10">
-                
-
                 {/* Sizes */}
                 <div className="mt-10">
                   <div className="flex items-center justify-between">
                     <h3 className="text-sm font-medium text-gray-900">Size</h3>
-                    <a
-                      href="#"
-                      className="text-sm font-medium text-indigo-600 hover:text-indigo-500"
-                    >
-                      Size guide
-                    </a>
                   </div>
+
 
                   <fieldset aria-label="Choose a size" className="mt-4">
                     <RadioGroup
@@ -259,12 +242,13 @@ export default function ProductDetails() {
                   </fieldset>
                 </div>
 
-                <button
+                <Button
+                  variant="contained"
                   type="submit"
-                  className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-hidden"
+                  sx={{ padding: ".8rem 2rem", marginTop: "2rem", bgcolor: "#4a0080" }}
                 >
-                  Add to bag
-                </button>
+                  Add To Cart
+                </Button>
               </form>
             </div>
 
