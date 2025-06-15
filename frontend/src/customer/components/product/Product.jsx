@@ -31,7 +31,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 
-import FilterListIcon from '@mui/icons-material/FilterList';
+import FilterListIcon from "@mui/icons-material/FilterList";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const sortOptions = [
@@ -48,28 +48,38 @@ export default function Product() {
   const location = useLocation();
   const navigate = useNavigate();
 
-const handleFilter = (value, sectionId)=> {
-  const searchParams = new URLSearchParams(location.search);
+  const handleFilter = (value, sectionId) => {
+    const searchParams = new URLSearchParams(location.search);
 
-  let filterValues = searchParams.getAll(sectionId);
+    let filterValues = searchParams.getAll(sectionId);
 
-  if (filterValues.length > 0 && filterValues[0].split(",").includes(value)){
-    filterValues = filterValues[0].split(",").filter((item) => item !== value);
+    if (filterValues.length > 0 && filterValues[0].split(",").includes(value)) {
+      filterValues = filterValues[0]
+        .split(",")
+        .filter((item) => item !== value);
 
-    if (filterValues.length === 0){
-      searchParams.delete(sectionId);
+      if (filterValues.length === 0) {
+        searchParams.delete(sectionId);
+      }
+    } else {
+      filterValues.push(value);
     }
-  }
-  else{
-    filterValues.push(value);
-  }
 
-  if (filterValues.length > 0){
-    searchParams.set(sectionId, filterValues.join(","));
-  }
+    if (filterValues.length > 0) {
+      searchParams.set(sectionId, filterValues.join(","));
+    }
     const query = searchParams.toString();
     navigate({ search: `?${query}` });
-}
+  };
+
+  // handle single filters
+  const handleRadioFilterChange = (e, sectionId) => {
+    const searchParams = new URLSearchParams(location.search);
+    searchParams.set(sectionId, e.target.value);
+
+    const query = searchParams.toString();
+    navigate({ search: `?${query}` });
+  };
 
   return (
     <div className="bg-white">
@@ -251,7 +261,7 @@ const handleFilter = (value, sectionId)=> {
                 <div>
                   <div className="py-10 flex justify-between items-center">
                     <h1 className="text-lg opacity-50 font-bold">Filters</h1>
-                    <FilterListIcon/>
+                    <FilterListIcon />
                   </div>
                   <form className="hidden lg:block">
                     {filters.map((section) => (
@@ -292,7 +302,12 @@ const handleFilter = (value, sectionId)=> {
                                     <div className="flex h-5 shrink-0 items-center">
                                       <div className="group grid size-4 grid-cols-1">
                                         <input
-                                          onChange={()=> handleFilter(option.value, section.id)}
+                                          onChange={() =>
+                                            handleFilter(
+                                              option.value,
+                                              section.id
+                                            )
+                                          }
                                           defaultValue={option.value}
                                           defaultChecked={option.checked}
                                           id={`filter-${section.id}-${optionIdx}`}
@@ -382,9 +397,12 @@ const handleFilter = (value, sectionId)=> {
                                       (option, optionIdx) => (
                                         <>
                                           <FormControlLabel
-                                            value={option.id}
+                                            value={option.value}
                                             control={<Radio />}
                                             label={option.label}
+                                            onChange={(e) =>
+                                              handleRadioFilterChange(e,section.id)
+                                            }
                                           />
                                         </>
                                       )
