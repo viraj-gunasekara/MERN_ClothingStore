@@ -6,7 +6,7 @@ const ProductReviewCard = () => {
     <div>
       <Grid container spacing={2} gap={3}>
         {/* item 1 */}
-        <Grid item xs={1}>
+        <Grid item size={{xs:1}}>
           <Box>
             <Avatar
               className="text-white"
@@ -20,7 +20,7 @@ const ProductReviewCard = () => {
         </Grid>
 
         {/* item 2 */}
-        <Grid item xs={9}>
+        <Grid item size={{xs:9}} wrap="wrap">
           <div className="space-y-2">
             <div className="">
               {/* f-name & date */}
@@ -40,7 +40,7 @@ const ProductReviewCard = () => {
             </div>
 
             {/* User Review */}
-            <p>Thie dress adds a pop of color to your ensemble, while the plain design allows you to accessorize to your liking.</p>
+            <p>Thie dress adds Thie Thie dress adds dress adds a pop of color to your ensemble.</p>
           </div>
         </Grid>
       </Grid>

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { StarIcon } from "@heroicons/react/20/solid";
 import { Radio, RadioGroup } from "@headlessui/react";
-import { Button, Grid, Rating } from "@mui/material";
+import { Box, Button, Grid, LinearProgress, Rating } from "@mui/material";
 import ProductReviewCard from "./ProductReviewCard";
 
 const product = {
@@ -156,15 +156,9 @@ export default function ProductDetails() {
             <div className="mt-4 lg:row-span-3 lg:mt-0">
               <h2 className="sr-only">Product information</h2>
               <div className="flex space-x-5 items-center text-lg lg:text-xl tracking-tight text-gray-900 mt-6">
-                <p className="font-semibold">
-                  Rs.499
-                </p>
-                <p className="opacity-50 line-through">
-                  Rs.550
-                </p>
-                <p className="text-green-600 font-semibold">
-                  16% Off
-                </p>
+                <p className="font-semibold">Rs.499</p>
+                <p className="opacity-50 line-through">Rs.550</p>
+                <p className="text-green-600 font-semibold">16% Off</p>
               </div>
 
               {/* Reviews */}
@@ -190,7 +184,6 @@ export default function ProductDetails() {
                   <div className="flex items-center justify-between">
                     <h3 className="text-sm font-medium text-gray-900">Size</h3>
                   </div>
-
 
                   <fieldset aria-label="Choose a size" className="mt-4">
                     <RadioGroup
@@ -246,7 +239,11 @@ export default function ProductDetails() {
                 <Button
                   variant="contained"
                   type="submit"
-                  sx={{ padding: ".8rem 2rem", marginTop: "2rem", bgcolor: "#4a0080" }}
+                  sx={{
+                    padding: ".8rem 2rem",
+                    marginTop: "2rem",
+                    bgcolor: "#4a0080",
+                  }}
                 >
                   Add To Cart
                 </Button>
@@ -300,12 +297,170 @@ export default function ProductDetails() {
 
           <div className="border p-5">
             <Grid container spacing={7}>
-              <Grid item xs={7}>
-                  <div className="space-y-5">
-                    {[1,1,1].map((item)=>
-                      <ProductReviewCard/>
-                    )}
-                  </div>
+              <Grid size={{ xs: 7 }}>
+                <div className="space-y-5">
+                  {[1, 1, 1].map((item) => (
+                    <ProductReviewCard />
+                  ))}
+                </div>
+              </Grid>
+
+              {/* Overall ratings */}
+              <Grid size={{ xs: 5 }}>
+                {/* top part */}
+                <h1 className="text-xl font-semibold pb-1">Product Ratings</h1>
+                <div className="flex items-center space-x-3 pb-10">
+                  <Rating
+                    name="read-only"
+                    value={4.6}
+                    precision={0.5}
+                    readOnly
+                  />
+                  <p className="opacity-60">214 Ratings</p>
+                </div>
+
+                {/* middle part */}
+                <Box className="mt-5 space-y-3">
+                  <Grid
+                    container
+                    justifyContent="center"
+                    alignItems="center"
+                    gap={2}
+                  >
+                    <Grid size={{ xs: 2 }}>
+                      <p className="p-0">Excellent</p>
+                    </Grid>
+                    <Grid size={{ xs: 7 }}>
+                      <LinearProgress
+                        variant="determinate"
+                        value={90}
+                        sx={{
+                          bgcolor: "#e0e0e0",
+                          "& .MuiLinearProgress-bar": {
+                            backgroundColor: "#2e7d32", // deep green
+                          },
+                          borderRadius: 4,
+                          height: 7,
+                        }}
+                      />
+                    </Grid>
+                    <Grid size={{ xs: 2 }}>
+                      <p className="opacity-50 p-2">149</p>
+                    </Grid>
+                  </Grid>
+
+                  <Grid
+                    container
+                    justifyContent="center"
+                    alignItems="center"
+                    gap={2}
+                  >
+                    <Grid size={{ xs: 2 }}>
+                      <p className="p-0">Very Good</p>
+                    </Grid>
+                    <Grid size={{ xs: 7 }}>
+                      <LinearProgress
+                        variant="determinate"
+                        value={70}
+                        sx={{
+                          bgcolor: "#e0e0e0",
+                          "& .MuiLinearProgress-bar": {
+                            backgroundColor: "#0288d1", // medium blue
+                          },
+                          borderRadius: 4,
+                          height: 7,
+                        }}
+                      />
+                    </Grid>
+                    <Grid size={{ xs: 2 }}>
+                      <p className="opacity-50 p-2">57</p>
+                    </Grid>
+                  </Grid>
+
+                  <Grid
+                    container
+                    justifyContent="center"
+                    alignItems="center"
+                    gap={2}
+                  >
+                    <Grid size={{ xs: 2 }}>
+                      <p className="p-0">Good</p>
+                    </Grid>
+                    <Grid size={{ xs: 7 }}>
+                      <LinearProgress
+                        variant="determinate"
+                        value={50}
+                        sx={{
+                          bgcolor: "#e0e0e0",
+                          "& .MuiLinearProgress-bar": {
+                            backgroundColor: "#ffdd00", // amber
+                          },
+                          borderRadius: 4,
+                          height: 7,
+                        }}
+                      />
+                    </Grid>
+                    <Grid size={{ xs: 2 }}>
+                      <p className="opacity-50 p-2">23</p>
+                    </Grid>
+                  </Grid>
+
+                  <Grid
+                    container
+                    justifyContent="center"
+                    alignItems="center"
+                    gap={2}
+                  >
+                    <Grid size={{ xs: 2 }}>
+                      <p className="p-0">Average</p>
+                    </Grid>
+                    <Grid size={{ xs: 7 }}>
+                      <LinearProgress
+                        variant="determinate"
+                        value={30}
+                        sx={{
+                          bgcolor: "#e0e0e0",
+                          "& .MuiLinearProgress-bar": {
+                            backgroundColor: "#fb8c00", // orange
+                          },
+                          borderRadius: 4,
+                          height: 7,
+                        }}
+                      />
+                    </Grid>
+                    <Grid size={{ xs: 2 }}>
+                      <p className="opacity-50 p-2">14</p>
+                    </Grid>
+                  </Grid>
+
+                  <Grid
+                    container
+                    justifyContent="center"
+                    alignItems="center"
+                    gap={2}
+                  >
+                    <Grid size={{ xs: 2 }}>
+                      <p className="p-0">Poor</p>
+                    </Grid>
+                    <Grid size={{ xs: 7 }}>
+                      <LinearProgress
+                        variant="determinate"
+                        value={15}
+                        sx={{
+                          bgcolor: "#e0e0e0",
+                          "& .MuiLinearProgress-bar": {
+                            backgroundColor: "#d32f2f", // red
+                          },
+                          borderRadius: 4,
+                          height: 7,
+                        }}
+                      />
+                    </Grid>
+                    <Grid size={{ xs: 2 }}>
+                      <p className="opacity-50 p-2">3</p>
+                    </Grid>
+                  </Grid>
+                </Box>
               </Grid>
             </Grid>
           </div>
