@@ -8,6 +8,9 @@ app.use(cors());
 
 app.get("/",(req,res)=>{
     return res.status(200).send({message:"welcome to Clothing store - server", status:true})
-})
+});
+
+const authRouter = require("./routes/auth.routes.js");
+app.use("/auth",authRouter);
 
 module.exports={app};
