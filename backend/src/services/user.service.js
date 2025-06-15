@@ -85,7 +85,7 @@ const getUserProfileByToken=async(token)=>{
         // Extract the user ID from the provided JWT token
         const userId=jwtProvider.getUserIdFromToken(token)
 
-        console.log("userr id ",userId)
+        console.log("user id ",userId)
 
         // Find the user by ID
         const user = await findUserById(userId);
