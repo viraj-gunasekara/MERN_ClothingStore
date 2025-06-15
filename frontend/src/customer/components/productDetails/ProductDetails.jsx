@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { StarIcon } from "@heroicons/react/20/solid";
 import { Radio, RadioGroup } from "@headlessui/react";
+import { Rating } from "@mui/material";
 
 const product = {
   name: "Basic Tee 6-Pack",
@@ -171,37 +172,29 @@ export default function ProductDetails() {
 
               {/* Reviews */}
               <div className="mt-6">
-                
+                <h3 className="sr-only">Reviews</h3>
+
+                <div className="flex items-center space-x-3">
+                  <Rating
+                    name="read-only"
+                    value={4.6}
+                    precision={0.5}
+                    readOnly
+                  />
+
+                  <p className="opacity-60 text-sm">214 Ratings</p>
+                  <p className="ml-3 text-sm font-medium text-indigo-600 hover:text-indigo-500">
+                    19 Reviews
+                  </p>
+                </div>
               </div>
 
-              <form className="mt-10">
-                {/* Colors */}
-                <div>
-                  <h3 className="text-sm font-medium text-gray-900">Color</h3>
 
-                  <fieldset aria-label="Choose a color" className="mt-4">
-                    <div className="flex items-center gap-x-3">
-                      {product.colors.map((option, optionIdx) => (
-                        <div
-                          key={optionIdx}
-                          className="flex rounded-full outline -outline-offset-1 outline-black/10"
-                        >
-                          <input
-                            defaultValue={option.id}
-                            defaultChecked={option.id === product.colors[0].id}
-                            name="color-choice"
-                            type="radio"
-                            aria-label={option.name}
-                            className={classNames(
-                              option.classes,
-                              "size-8 appearance-none rounded-full forced-color-adjust-none checked:outline-2 checked:outline-offset-2 focus-visible:outline-3 focus-visible:outline-offset-3"
-                            )}
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  </fieldset>
-                </div>
+
+
+
+              <form className="mt-10">
+                
 
                 {/* Sizes */}
                 <div className="mt-10">
