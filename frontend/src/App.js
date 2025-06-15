@@ -4,17 +4,17 @@ import HomePage from "./customer/pages/homePage/HomePage.jsx";
 import Footer from "./customer/components/footer/Footer.jsx";
 import Product from "./customer/components/product/Product.jsx";
 import ProductDetails from "./customer/components/productDetails/ProductDetails.jsx";
+import { Route, Routes } from "react-router-dom";
+import CustomerRoutes from "./Routers/CustomerRoutes.jsx";
 
 function App() {
   return (
     <div className="">
-      <Navigation />
-      <div>
-        {/* <HomePage /> */}
-        {/* <Product/> */}
-        <ProductDetails/>
-      </div>
-      <Footer />
+
+      <Routes>
+        <Route path="/*" element={<CustomerRoutes/>}></Route>
+      </Routes>
+      
     </div>
   );
 }

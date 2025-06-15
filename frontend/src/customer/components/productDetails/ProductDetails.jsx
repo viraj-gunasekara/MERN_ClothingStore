@@ -308,8 +308,8 @@ export default function ProductDetails() {
               {/* Overall ratings */}
               <Grid size={{ xs: 5 }}>
                 {/* top part */}
-                <h1 className="text-xl font-semibold pb-1">Product Ratings</h1>
-                <div className="flex items-center space-x-3 pb-10">
+                <h1 className="text-xl font-semibold pb-2">Product Ratings</h1>
+                <div className="flex items-center space-x-3 pb-4">
                   <Rating
                     name="read-only"
                     value={4.6}
@@ -320,7 +320,7 @@ export default function ProductDetails() {
                 </div>
 
                 {/* middle part */}
-                <Box className="mt-5 space-y-3">
+                <Box className="mt-5 space-y-2">
                   <Grid
                     container
                     justifyContent="center"
