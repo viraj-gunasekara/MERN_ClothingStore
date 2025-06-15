@@ -76,7 +76,7 @@ export default function ProductDetails() {
   const [selectedSize, setSelectedSize] = useState(product.sizes[2]);
 
   return (
-    <div className="bg-white">
+    <div className="bg-white lg:px-20">
       <div className="pt-6">
         <nav aria-label="Breadcrumb">
           <ol
@@ -293,7 +293,7 @@ export default function ProductDetails() {
         </section>
 
         {/* rating and review section */}
-        <section className="">
+        <section className="pb-8">
           <h1 className="font-semibold text-lg pb-4">
             Recent Review & Ratings
           </h1>
@@ -302,7 +302,9 @@ export default function ProductDetails() {
             <Grid container spacing={7}>
               <Grid item xs={7}>
                   <div className="space-y-5">
-                    <ProductReviewCard/>
+                    {[1,1,1].map((item)=>
+                      <ProductReviewCard/>
+                    )}
                   </div>
               </Grid>
             </Grid>
