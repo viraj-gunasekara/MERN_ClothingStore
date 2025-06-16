@@ -110,4 +110,105 @@ async function findProductById(id) {
 };
 
 
-module.exports = { createProduct, deleteProduct, updateProduct, findProductById };
+// Get all products with 
+// filtering and 
+// pagination
+async function getAllProducts(reqQuery) {
+  //Destructure query parameters from request query obj
+  let {
+    category, color, sizes, minPrice, maxPrice, minDiscount,
+    sort, stock, pageNumber, pageSize } = reqQuery;
+
+  //Set default values if not provided //10 items per page, 1 page
+  (pageSize = pageSize || 10), (pageNumber = pageNumber || 1);
+
+  //Start a base query to find all products and populate their category
+  let query = Product.find().populate("category");
+
+  //Filter by Category
+  if (category) {
+    const existCategory = await Category.findOne({ name: category });
+    if (existCategory)
+      query = query.where("category").equals(existCategory._id);
+    else {
+      return { content: [], currentPage: 1, totalPages:1 };
+    }
+  }
+
+  //Filter by Color
+  if (color) {
+    const colorSet = new Set(color.split(",").map(color => color.trim().toLowerCase()));
+    const colorRegex = colorSet.size > 0 ? new RegExp([...colorSet].join("|"), "i") : null;
+    query = query.where("color").regex(colorRegex);
+  }
+
+  //Filter by Size
+  if (sizes) {
+    const sizesSet = new Set(sizes);
+    
+    query = query.where("sizes.name").in([...sizesSet]);
+  }
+
+  //Filter by Price Range
+  if (minPrice && maxPrice) {
+    query = query.where("discountedPrice").gte(minPrice).lte(maxPrice);
+  }
+
+  //Filter by min Dis value
+  if (minDiscount) {
+    query = query.where("discountPersent").gt(minDiscount);
+  }
+
+  //Filter by Stock Status
+  if (stock) {
+    if (stock === "in_stock") {
+      //Products with quantity greater than 0
+      query = query.where("quantity").gt(0);
+
+    } else if (stock === "out_of_stock") {
+      //Products with quantity greater than 1
+      query = query.where("quantity").lte(0);
+    }
+  }
+
+  //Sorting by Price
+  if (sort) {
+    //Descending for "price_high", ascending otherwise
+    const sortDirection = sort === "price_high" ? -1 : 1;
+
+    //Apply sorting to the query on the 'discountedPrice' field
+    query = query.sort({ discountedPrice: sortDirection });
+  }
+
+
+  // Apply pagination
+  //Count total number of products matching the current filter
+  const totalProducts = await Product.countDocuments(query);
+
+  //Calculate how many documents to skip based on page number
+  const skip = (pageNumber - 1) * pageSize;
+
+  //Apply skip and limit to paginate results
+  query = query.skip(skip).limit(pageSize);
+
+  //Execute the query to retrieve final product list
+  const products = await query.exec();
+
+  //Calculate total number of pages based on total products and page size
+  const totalPages = Math.ceil(totalProducts / pageSize);
+
+  //Return the paginated and filtered result
+  return { content: products, currentPage: pageNumber, totalPages:totalPages };
+}
+
+
+//Batch Products Creation Function
+async function createMultipleProduct(products) {
+  for (let product of products) {
+    await createProduct(product);
+  }
+}
+
+
+module.exports = { createProduct, deleteProduct, updateProduct, findProductById,
+  getAllProducts, createMultipleProduct };
