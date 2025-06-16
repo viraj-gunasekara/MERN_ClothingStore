@@ -60,7 +60,7 @@ async function findProductByCategory(req, res) {
 // Search products by query
 async function searchProduct(req, res) {
   try {
-    const query = req.params.query;
+    const query = req.query.q;
     const products = await productService.searchProduct(query);
     return res.json(products);
   } catch (error) {
