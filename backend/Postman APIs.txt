@@ -46,3 +46,18 @@ http://localhost:5454/api/admin/products
   "secondLevelCategory": "Shoes",
   "thirdLevelCategory": "Running Shoes"
 }
+
+*USER
+//Get All Products - GET
+http://localhost:5454/api/products
+
+//Filter & Get All Products -GET
+http://localhost:5454/api/products?color=blue&size=s
+
+//Find Product By ID - GET
+http://localhost:5454/api/products/id/666a333b872e25c45d0fabc9
+*here need to pass obj id of the product
+
+//Search Products - GET
+http://localhost:5454/api/products/search?q=Shoe
+*here can pass any parameter as search query (any title or description)

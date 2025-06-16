@@ -215,6 +215,18 @@ async function createMultipleProduct(products) {
   }
 }
 
+//Search Product using query
+async function searchProduct(query) {
+  // Searches title or description for the query string (fix-case-insensitivity)
+  const products = await Product.find({
+    $or: [
+      { title: { $regex: query, $options: "i" } },
+      { description: { $regex: query, $options: "i" } }
+    ]
+  }).populate("category");
+
+  return products;
+}
 
 module.exports = { createProduct, deleteProduct, updateProduct, findProductById,
-  getAllProducts, createMultipleProduct };
+  getAllProducts, createMultipleProduct, searchProduct };
