@@ -9,10 +9,12 @@ async function createProduct(reqData) {
 
   //if not exist, create it
   if (!topLevel) {
-    topLevel = new Category({
+    const topLevelCategory = new Category({
       name: reqData.topLevelCategory,
       level: 1,
     });
+
+    topLevel = await topLevelCategory.save();
   }
 
   //Check if second-level category ("Clothing", "Shoes") exists under top-level
@@ -23,11 +25,13 @@ async function createProduct(reqData) {
 
   //if not exist, create it
   if (!secondLevel) {
-    secondLevel = new Category({
+    const secondLevelCategory = new Category({
       name: reqData.secondLevelCategory,
       parentCategory: topLevel._id,
       level: 2,
     });
+
+    secondLevel = await secondLevelCategory.save();
   }
 
   //Check if third-level category ("T-Shirts", "Jeans") exists under second-level
@@ -38,11 +42,13 @@ async function createProduct(reqData) {
 
   //if not exist, create it
   if (!thirdLevel) {
-    thirdLevel = new Category({
+    const thirdLevelCategory = new Category({
       name: reqData.thirdLevelCategory,
       parentCategory: secondLevel._id,
       level: 3,
     });
+
+    thirdLevel = await thirdLevelCategory.save();
   }
 
 

@@ -22,3 +22,27 @@ http://localhost:5454/api/users
 //User Profile - GET
 http://localhost:5454/api/users/profile
 *pass user JWT token as Bearer Token
+
+===========product routes===========
+*ADMIN
+//Create Product - POST
+http://localhost:5454/api/admin/products
+{
+  "imageUrl": "https://img.freepik.com/premium-photo/black-leather-men-s-sneakers-isolated-black-grunge-background-sports-shoes_154092-28301.jpg?ga=GA1.1.210513954.1749497838&semt=ais_hybrid&w=740",
+  "title": "Men's Running Shoes",
+  "description": "Lightweight and comfortable running shoes for men.",
+  "price": 3999,
+  "discountedPrice": 2999,
+  "discountPersent": 25,
+  "quantity": 10,
+  "brand": "Nike",
+  "color": "Black",
+  "size": [
+    { "name": "7", "quantity": 10 },
+    { "name": "8", "quantity": 20 },
+    { "name": "9", "quantity": 15 }
+  ],
+  "topLevelCategory": "Men",
+  "secondLevelCategory": "Shoes",
+  "thirdLevelCategory": "Running Shoes"
+}
