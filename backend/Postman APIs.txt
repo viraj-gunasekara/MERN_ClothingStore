@@ -1,0 +1,24 @@
+===========auth routes===========
+//Sign Up - POST
+http://localhost:5454/auth/signup
+{
+  "firstName": "Viraj",
+  "lastName": "S",
+  "email": "viraj@123.com",
+  "password": "v123123"
+}
+
+//Sign In - POST
+http://localhost:5454/auth/signin
+{
+  "email": "viraj@123.com",
+  "password": "v123123"
+}
+
+===========user routes===========
+//All Users - GET
+http://localhost:5454/api/users
+
+//User Profile - GET
+http://localhost:5454/api/users/profile
+*pass user JWT token as Bearer Token
