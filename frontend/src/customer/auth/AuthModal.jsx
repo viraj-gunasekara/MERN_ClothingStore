@@ -1,6 +1,8 @@
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import RegisterForm from "./RegisterForm";
+import { useLocation } from "react-router-dom";
+import LoginForm from "./LoginForm";
 
 const style = {
   position: "absolute",
@@ -15,6 +17,8 @@ const style = {
 };
 
 const AuthModal = ({ handleClose, open }) => {
+  const location = useLocation();
+
   return (
     <div>
       <Modal
@@ -25,11 +29,16 @@ const AuthModal = ({ handleClose, open }) => {
         size="large"
       >
         <Box className="rounded-md" sx={style}>
-          <RegisterForm/>
+          {location.pathname === "/login" ? (
+            <LoginForm/>
+          ) : (
+            <RegisterForm/>
+          )}
         </Box>
+        
       </Modal>
     </div>
   );
 };
 
-export default AuthModal
+export default AuthModal;

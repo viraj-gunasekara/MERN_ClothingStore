@@ -13,6 +13,10 @@ const CustomerRoutes = () => {
         <Navigation />
       </div>
       <Routes>
+        {/* login register */}
+        <Route path="/login" element={<HomePage />}></Route>
+        <Route path="/register" element={<HomePage />}></Route>
+        {/* home page */}
         <Route path="/" element={<HomePage />}></Route>
         <Route
           path="/:levelOne/:levelTwo/:levelThree"
