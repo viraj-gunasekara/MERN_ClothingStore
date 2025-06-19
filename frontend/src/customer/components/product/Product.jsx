@@ -35,7 +35,7 @@ import FilterListIcon from "@mui/icons-material/FilterList";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { findProducts } from "../../../redux/customer/product/Action";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const sortOptions = [
   { name: "Price: Low to High", href: "#", current: false },
@@ -52,6 +52,9 @@ export default function Product() {
   const navigate = useNavigate();
   const param = useParams();
   const dispatch = useDispatch();
+
+  const {product} = useSelector(store=> store);
+
 
   const decodedQueryString = decodeURIComponent(location.search);
   const searchParams = new URLSearchParams(decodedQueryString);
@@ -466,7 +469,7 @@ export default function Product() {
               {/* Product card goes here */}
               <div className="lg:col-span-4 w-full">
                 <div className="flex flex-wrap justify-center bg-white border py-5 rounded-md ">
-                  {mens_kurta.map((item) => (
+                  {product.products && product.products?.content?.map((item) => (
                     <ProductCard product={item} />
                   ))}
                 </div>
