@@ -62,6 +62,8 @@ http://localhost:5454/api/products?color=blue&size=s
 //Category Filter & Get All Products - GET
 http://localhost:5454/api/products?category=mens_kurta
 *works for 3rd level category
+http://localhost:5454/api/products?color=&size=&minPrice=0&maxPrice=10000&minDiscount=0&category=mens_kurta&pageNumber=1&pageSize=10
+*this works
 
 //Find Product By ID - GET
 http://localhost:5454/api/products/id/666a333b872e25c45d0fabc9
