@@ -37,6 +37,8 @@ import { findProducts } from "../../../redux/customer/product/Action";
 
 import { useDispatch, useSelector } from "react-redux";
 
+import Pagination from "@mui/material/Pagination";
+
 const sortOptions = [
   { name: "Price: Low to High", href: "#", current: false },
   { name: "Price: High to Low", href: "#", current: false },
@@ -53,8 +55,7 @@ export default function Product() {
   const param = useParams();
   const dispatch = useDispatch();
 
-  const {product} = useSelector(store=> store);
-
+  const { product } = useSelector((store) => store);
 
   const decodedQueryString = decodeURIComponent(location.search);
   const searchParams = new URLSearchParams(decodedQueryString);
@@ -65,6 +66,14 @@ export default function Product() {
   const sortValue = searchParams.get("sort");
   const pageNumber = searchParams.get("page") || 1;
   const stock = searchParams.get("stock");
+
+  // pagination
+  const handlePaginationChange = (event, value) => {
+    const searchParams = new URLSearchParams(location.search);
+    searchParams.set("page", value);
+    const query = searchParams.toString();
+    navigate({ search: `?${query}` });
+  };
 
   const handleFilter = (value, sectionId) => {
     const searchParams = new URLSearchParams(location.search);
@@ -100,7 +109,8 @@ export default function Product() {
   };
 
   useEffect(() => {
-    const [minPrice, maxPrice] = priceValue === null ? [0, 10000] : priceValue.split("-").map(Number);
+    const [minPrice, maxPrice] =
+      priceValue === null ? [0, 10000] : priceValue.split("-").map(Number);
 
     const data = {
       category: param.levelThree,
@@ -111,11 +121,10 @@ export default function Product() {
       minDiscount: discount || 0,
       sort: sortValue || "price_low",
       pageNumber: pageNumber - 0,
-      pageSize: 10,
+      pageSize: 8,
       stock: stock,
     };
     dispatch(findProducts(data));
-
   }, [
     param.levelThree,
     colorValue,
@@ -447,7 +456,10 @@ export default function Product() {
                                             control={<Radio />}
                                             label={option.label}
                                             onChange={(e) =>
-                                              handleRadioFilterChange(e,section.id)
+                                              handleRadioFilterChange(
+                                                e,
+                                                section.id
+                                              )
                                             }
                                           />
                                         </>
@@ -469,11 +481,24 @@ export default function Product() {
               {/* Product card goes here */}
               <div className="lg:col-span-4 w-full">
                 <div className="flex flex-wrap justify-center bg-white border py-5 rounded-md ">
-                  {product.products && product.products?.content?.map((item) => (
-                    <ProductCard product={item} />
-                  ))}
+                  {product.products &&
+                    product.products?.content?.map((item) => (
+                      <ProductCard product={item} />
+                    ))}
                 </div>
               </div>
+            </div>
+          </section>
+
+          {/* pagination section */}
+          <section className="w-full px-[3.6rem]">
+            <div className="mx-auto px-4 py-4 flex justify-center">
+              <Pagination
+                count={product.products?.totalPages || 1}
+                page={parseInt(pageNumber)}
+                color="primary"
+                onChange={handlePaginationChange}
+              />
             </div>
           </section>
         </main>
