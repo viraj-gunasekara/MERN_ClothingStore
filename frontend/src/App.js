@@ -6,6 +6,7 @@ import Product from "./customer/components/product/Product.jsx";
 import ProductDetails from "./customer/components/productDetails/ProductDetails.jsx";
 import { Route, Routes } from "react-router-dom";
 import CustomerRoutes from "./Routers/CustomerRoutes.jsx";
+import AdminRouters from "./Routers/AdminRouters.jsx";
 
 function App() {
   return (
@@ -13,6 +14,8 @@ function App() {
 
       <Routes>
         <Route path="/*" element={<CustomerRoutes/>}></Route>
+        {/* admin */}
+        <Route path="/admin/*" element={<AdminRouters/>}></Route>
       </Routes>
       
     </div>
