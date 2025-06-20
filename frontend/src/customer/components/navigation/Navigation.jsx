@@ -7,7 +7,8 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 
-import { Avatar, Button, Link, Menu, MenuItem } from "@mui/material";
+import { Avatar, Button, Menu, MenuItem } from "@mui/material";
+import { Link } from "react-router-dom";
 import { deepPurple } from "@mui/material/colors";
 import { navigation } from "./NavigationMenu";
 import { useLocation, useNavigate } from "react-router-dom";
