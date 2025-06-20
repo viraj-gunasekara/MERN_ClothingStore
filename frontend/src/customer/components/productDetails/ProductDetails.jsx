@@ -1,10 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { StarIcon } from "@heroicons/react/20/solid";
 import { Radio, RadioGroup } from "@headlessui/react";
 import { Box, Button, Grid, LinearProgress, Rating } from "@mui/material";
 import ProductReviewCard from "./ProductReviewCard";
+import { useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { findProductsById } from "../../../redux/customer/product/Action";
 
 const product = {
   name: "Basic Tee 6-Pack",
@@ -74,6 +77,16 @@ function classNames(...classes) {
 
 export default function ProductDetails() {
   const [selectedSize, setSelectedSize] = useState(product.sizes[2]);
+  const params = useParams();
+  const dispatch = useDispatch();
+
+  console.log("params----", params.productId);
+
+useEffect(()=>{
+  const data = {productId: params.productId};
+  dispatch(findProductsById(data));
+
+},[params.productId])
 
   return (
     <div className="bg-white lg:px-20">
