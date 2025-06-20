@@ -1,12 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { StarIcon } from "@heroicons/react/20/solid";
 import { Radio, RadioGroup } from "@headlessui/react";
 import { Box, Button, Grid, LinearProgress, Rating } from "@mui/material";
 import ProductReviewCard from "./ProductReviewCard";
+import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { findProductsById } from "../../../redux/customer/product/Action";
 
-const product = {
+const productDummy = {
   name: "Basic Tee 6-Pack",
   price: "$192",
   href: "#",
@@ -73,7 +76,69 @@ function classNames(...classes) {
 }
 
 export default function ProductDetails() {
-  const [selectedSize, setSelectedSize] = useState(product.sizes[2]);
+  const params = useParams();
+  const dispatch = useDispatch();
+  const { customerProducts } = useSelector((store) => store);
+
+  const product = customerProducts.product;
+  console.log("product check:", product);
+
+  const Chevron = () => (
+    <svg
+      fill="currentColor"
+      width={16}
+      height={20}
+      viewBox="0 0 16 20"
+      aria-hidden="true"
+      className="h-5 w-4 text-gray-700"
+    >
+      <path d="M5.697 4.34L8.98 16.532h1.327L7.025 4.341H5.697z" />
+    </svg>
+  );
+
+  // Capitalize helper
+  const capitalizeWords = (str) =>
+    str?.replace(/_/g, " ")?.replace(/\b\w/g, (char) => char.toUpperCase());
+
+  const thirdLevel = product?.category;
+  const secondLevel = thirdLevel?.parentCategory;
+  const topLevel = secondLevel?.parentCategory;
+
+  const thirdLevelId = thirdLevel?._id;
+  const secondLevelId = secondLevel?._id;
+  const topLevelId = topLevel?._id;
+
+  const thirdLevelName = thirdLevel?.name;
+  const secondLevelName = secondLevel?.name;
+  const topLevelName = topLevel?.name;
+
+  console.log("category check:", {
+    thirdLevelName,
+    secondLevelName,
+    topLevelName,
+    thirdLevelId,
+    secondLevelId,
+    topLevelId,
+  });
+
+  console.log("params----", params.productId);
+
+  const [selectedSize, setSelectedSize] = useState(null);
+
+  useEffect(() => {
+    const data = { productId: params.productId };
+    dispatch(findProductsById(data));
+  }, [params.productId]);
+
+  useEffect(() => {
+    if (product?.sizes?.length > 0) {
+      setSelectedSize(product.sizes[2]);
+    }
+  }, [product]);
+
+  if (!product) {
+    return <div>Loading product...</div>;
+  }
 
   return (
     <div className="bg-white lg:px-20">
@@ -83,36 +148,52 @@ export default function ProductDetails() {
             role="list"
             className="mx-auto flex max-w-2xl items-center space-x-2 px-4 sm:px-6 lg:max-w-7xl lg:px-8"
           >
-            {product.breadcrumbs.map((breadcrumb) => (
-              <li key={breadcrumb.id}>
+            {topLevel && (
+              <li>
                 <div className="flex items-center">
                   <a
-                    href={breadcrumb.href}
+                    href={`/${topLevel.name.toLowerCase()}`}
                     className="mr-2 text-sm font-medium text-gray-900"
                   >
-                    {breadcrumb.name}
+                    {capitalizeWords(topLevel.name)}
                   </a>
-                  <svg
-                    fill="currentColor"
-                    width={16}
-                    height={20}
-                    viewBox="0 0 16 20"
-                    aria-hidden="true"
-                    className="h-5 w-4 text-gray-300"
-                  >
-                    <path d="M5.697 4.34L8.98 16.532h1.327L7.025 4.341H5.697z" />
-                  </svg>
+                  <Chevron />
                 </div>
               </li>
-            ))}
+            )}
+
+            {secondLevel && (
+              <li>
+                <div className="flex items-center">
+                  <a
+                    href={`/${topLevel.name.toLowerCase()}/${secondLevel.name.toLowerCase()}`}
+                    className="mr-2 text-sm font-medium text-gray-900"
+                  >
+                    {capitalizeWords(secondLevel.name)}
+                  </a>
+                  <Chevron />
+                </div>
+              </li>
+            )}
+
+            {thirdLevel && (
+              <li>
+                <div className="flex items-center">
+                  <a
+                    href={`/${topLevel.name.toLowerCase()}/${secondLevel.name.toLowerCase()}/${thirdLevel.name.toLowerCase()}`}
+                    className="mr-2 text-sm font-medium text-gray-900"
+                  >
+                    {capitalizeWords(thirdLevel.name)}
+                  </a>
+                  <Chevron />
+                </div>
+              </li>
+            )}
+
             <li className="text-sm">
-              <a
-                href={product.href}
-                aria-current="page"
-                className="font-medium text-gray-500 hover:text-gray-600"
-              >
-                {product.name}
-              </a>
+              <span className="font-medium text-gray-500">
+                {product?.title}
+              </span>
             </li>
           </ol>
         </nav>
@@ -122,14 +203,14 @@ export default function ProductDetails() {
           <div className="flex flex-col items-center ">
             <div className=" overflow-hidden rounded-lg max-w-[30rem] max-h-[35rem]">
               <img
-                alt={product.images[0].alt}
-                src={product.images[0].src}
+                alt={product.images?.[0]?.alt || "Product Image"}
+                src={customerProducts.product?.imageUrl}
                 className="row-span-2 aspect-3/4 size-full rounded-lg object-cover max-lg:hidden"
               />
             </div>
             {/* section2 */}
             <div className="flex flex-wrap space-x-5 justify-center">
-              {product.images.map((item) => (
+              {productDummy.images.map((item) => (
                 <div className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg max-w-[5rem] max-h-[5rem] mt-4">
                   <img
                     alt={item.alt}
@@ -145,10 +226,10 @@ export default function ProductDetails() {
           <div className="lg:col-span-1 mx-auto max-w-2xl px-4 pb-16 sm:px-6  lg:max-w-7xl  lg:px-8 lg:pb-24">
             <div className="lg:col-span-2">
               <h1 className="text-lg lg:text-xl font-semibold tracking-tight text-gray-900">
-                Gorgeous Rani
+                {customerProducts.product?.brand}
               </h1>
               <h1 className="text-lg lg:text-xl tracking-tight text-gray-900 opacity-60 pt-1">
-                Pink Georgette Wedding Wear Plain Gown With Dupatta
+                {customerProducts.product?.title}
               </h1>
             </div>
 
@@ -156,9 +237,15 @@ export default function ProductDetails() {
             <div className="mt-4 lg:row-span-3 lg:mt-0">
               <h2 className="sr-only">Product information</h2>
               <div className="flex space-x-5 items-center text-lg lg:text-xl tracking-tight text-gray-900 mt-6">
-                <p className="font-semibold">Rs.499</p>
-                <p className="opacity-50 line-through">Rs.550</p>
-                <p className="text-green-600 font-semibold">16% Off</p>
+                <p className="font-semibold">
+                  Rs.{customerProducts.product?.discountedPrice}
+                </p>
+                <p className="opacity-50 line-through">
+                  Rs.{customerProducts.product?.price}
+                </p>
+                <p className="text-green-600 font-semibold">
+                  {customerProducts.product?.discountPersent}% Off
+                </p>
               </div>
 
               {/* Reviews */}
@@ -191,7 +278,7 @@ export default function ProductDetails() {
                       onChange={setSelectedSize}
                       className="grid grid-cols-4 gap-4 sm:grid-cols-8 lg:grid-cols-4"
                     >
-                      {product.sizes.map((size) => (
+                      {productDummy.sizes.map((size) => (
                         <Radio
                           key={size.name}
                           value={size}
@@ -257,7 +344,7 @@ export default function ProductDetails() {
 
                 <div className="space-y-6">
                   <p className="text-base text-gray-900">
-                    {product.description}
+                    {customerProducts.product?.description}
                   </p>
                 </div>
               </div>
@@ -269,7 +356,7 @@ export default function ProductDetails() {
 
                 <div className="mt-4">
                   <ul role="list" className="list-disc space-y-2 pl-4 text-sm">
-                    {product.highlights.map((highlight) => (
+                    {productDummy.highlights.map((highlight) => (
                       <li key={highlight} className="text-gray-400">
                         <span className="text-gray-600">{highlight}</span>
                       </li>
@@ -282,7 +369,9 @@ export default function ProductDetails() {
                 <h2 className="text-sm font-medium text-gray-900">Details</h2>
 
                 <div className="mt-4 space-y-6">
-                  <p className="text-sm text-gray-600">{product.details}</p>
+                  <p className="text-sm text-gray-600">
+                    {productDummy.details}
+                  </p>
                 </div>
               </div>
             </div>

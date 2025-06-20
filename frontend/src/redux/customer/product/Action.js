@@ -33,6 +33,7 @@ export const findProductsById = (reqData) => async (dispatch) => {
   dispatch({ type: FIND_PRODUCT_BY_ID_REQUEST });
 
   const { productId } = reqData;
+  console.log("product id: ", productId);
 
   try {
     
