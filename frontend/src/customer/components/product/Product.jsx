@@ -55,7 +55,7 @@ export default function Product() {
   const param = useParams();
   const dispatch = useDispatch();
 
-  const { product } = useSelector((store) => store);
+  const { customerProducts } = useSelector((store) => store);
 
   const decodedQueryString = decodeURIComponent(location.search);
   const searchParams = new URLSearchParams(decodedQueryString);
@@ -481,8 +481,8 @@ export default function Product() {
               {/* Product card goes here */}
               <div className="lg:col-span-4 w-full">
                 <div className="flex flex-wrap justify-center bg-white border py-5 rounded-md ">
-                  {product.products &&
-                    product.products?.content?.map((item) => (
+                  {customerProducts.products &&
+                    customerProducts.products?.content?.map((item) => (
                       <ProductCard product={item} />
                     ))}
                 </div>
@@ -494,7 +494,7 @@ export default function Product() {
           <section className="w-full px-[3.6rem]">
             <div className="mx-auto px-4 py-4 flex justify-center">
               <Pagination
-                count={product.products?.totalPages || 1}
+                count={customerProducts.products?.totalPages || 1}
                 page={parseInt(pageNumber)}
                 color="primary"
                 onChange={handlePaginationChange}

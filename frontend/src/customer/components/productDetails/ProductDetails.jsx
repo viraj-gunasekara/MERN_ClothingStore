@@ -6,7 +6,7 @@ import { Radio, RadioGroup } from "@headlessui/react";
 import { Box, Button, Grid, LinearProgress, Rating } from "@mui/material";
 import ProductReviewCard from "./ProductReviewCard";
 import { useParams } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { findProductsById } from "../../../redux/customer/product/Action";
 
 const product = {
@@ -79,6 +79,7 @@ export default function ProductDetails() {
   const [selectedSize, setSelectedSize] = useState(product.sizes[2]);
   const params = useParams();
   const dispatch = useDispatch();
+  const { customerProducts } = useSelector(store=> store);
 
   console.log("params----", params.productId);
 
@@ -136,7 +137,7 @@ useEffect(()=>{
             <div className=" overflow-hidden rounded-lg max-w-[30rem] max-h-[35rem]">
               <img
                 alt={product.images[0].alt}
-                src={product.images[0].src}
+                src={customerProducts.product?.imageUrl}
                 className="row-span-2 aspect-3/4 size-full rounded-lg object-cover max-lg:hidden"
               />
             </div>
@@ -158,10 +159,10 @@ useEffect(()=>{
           <div className="lg:col-span-1 mx-auto max-w-2xl px-4 pb-16 sm:px-6  lg:max-w-7xl  lg:px-8 lg:pb-24">
             <div className="lg:col-span-2">
               <h1 className="text-lg lg:text-xl font-semibold tracking-tight text-gray-900">
-                Gorgeous Rani
+                {customerProducts.product?.brand}
               </h1>
               <h1 className="text-lg lg:text-xl tracking-tight text-gray-900 opacity-60 pt-1">
-                Pink Georgette Wedding Wear Plain Gown With Dupatta
+                {customerProducts.product?.title}
               </h1>
             </div>
 
@@ -169,9 +170,9 @@ useEffect(()=>{
             <div className="mt-4 lg:row-span-3 lg:mt-0">
               <h2 className="sr-only">Product information</h2>
               <div className="flex space-x-5 items-center text-lg lg:text-xl tracking-tight text-gray-900 mt-6">
-                <p className="font-semibold">Rs.499</p>
-                <p className="opacity-50 line-through">Rs.550</p>
-                <p className="text-green-600 font-semibold">16% Off</p>
+                <p className="font-semibold">Rs.{customerProducts.product?.discountedPrice}</p>
+                <p className="opacity-50 line-through">Rs.{customerProducts.product?.price}</p>
+                <p className="text-green-600 font-semibold">{customerProducts.product?.discountPersent}% Off</p>
               </div>
 
               {/* Reviews */}
@@ -270,7 +271,7 @@ useEffect(()=>{
 
                 <div className="space-y-6">
                   <p className="text-base text-gray-900">
-                    {product.description}
+                    {customerProducts.product?.description}
                   </p>
                 </div>
               </div>
