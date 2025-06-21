@@ -57,8 +57,12 @@ export const customerProductReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        products: [...state.products, action.payload],
+        products: {
+          ...state.products,
+          content: [...(state.products?.content || []), action.payload],
+        },
       };
+
     case CREATE_PRODUCT_FAILURE:
       return {
         ...state,
@@ -76,9 +80,12 @@ export const customerProductReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        products: state.products.map((product) =>
-          product.id === action.payload.id ? action.payload : product
-        ),
+        products: {
+          ...state.products,
+          content: state.products.content.map((product) =>
+            product._id === action.payload._id ? action.payload : product
+          ),
+        },
       };
     case UPDATE_PRODUCT_FAILURE:
       return {

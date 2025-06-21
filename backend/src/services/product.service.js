@@ -51,7 +51,6 @@ async function createProduct(reqData) {
     thirdLevel = await thirdLevelCategory.save();
   }
 
-
   //Create a new Product document with the provided data
   const product = new Product({
     title: reqData.title,
@@ -64,15 +63,14 @@ async function createProduct(reqData) {
     price: reqData.price,
     sizes: reqData.size,
     quantity: reqData.quantity,
-    category: thirdLevel._id,  //Assign product to third-level category
+    category: thirdLevel._id, //Assign product to third-level category
   });
 
   //Save the product document to the database
   const savedProduct = await product.save();
 
   return savedProduct;
-};
-
+}
 
 // Delete a product by ID
 async function deleteProduct(productId) {
@@ -81,15 +79,14 @@ async function deleteProduct(productId) {
 
   //product does not exist, under the id
   if (!product) {
-    throw new Error("product not found with id : " +productId);
+    throw new Error("product not found with id : " + productId);
   }
 
   //if product exists, delete it from the db using its ID
   await Product.findByIdAndDelete(productId);
 
   return "Product deleted Successfully";
-};
-
+}
 
 // Update a product by ID
 async function updateProduct(productId, reqData) {
@@ -98,13 +95,13 @@ async function updateProduct(productId, reqData) {
 
   //return the updated product document to db
   return updatedProduct;
-};
-
+}
 
 /* helper functions */
 // Find a product by ID & its belong category
 async function findProductById(id) {
-  const product = await Product.findById(id).populate({
+  const product = await Product.findById(id)
+    .populate({
       path: "category",
       populate: {
         path: "parentCategory",
@@ -122,23 +119,39 @@ async function findProductById(id) {
 
   //if found, return the product document
   return product;
-};
+}
 
-
-// Get all products with 
-// filtering and 
+// Get all products with
+// filtering and
 // pagination
 async function getAllProducts(reqQuery) {
   //Destructure query parameters from request query obj
   let {
-    category, color, sizes, minPrice, maxPrice, minDiscount,
-    sort, stock, pageNumber, pageSize } = reqQuery;
+    category,
+    color,
+    sizes,
+    minPrice,
+    maxPrice,
+    minDiscount,
+    sort,
+    stock,
+    pageNumber,
+    pageSize,
+  } = reqQuery;
 
   //Set default values if not provided //10 items per page, 1 page
   (pageSize = pageSize || 10), (pageNumber = pageNumber || 1);
 
   //Start a base query to find all products and populate their category
-  let query = Product.find().populate("category");
+  let query = Product.find().populate({
+    path: "category",
+    populate: {
+      path: "parentCategory",
+      populate: {
+        path: "parentCategory",
+      },
+    },
+  });
 
   //Filter by Category
   if (category) {
@@ -146,21 +159,24 @@ async function getAllProducts(reqQuery) {
     if (existCategory)
       query = query.where("category").equals(existCategory._id);
     else {
-      return { content: [], currentPage: 1, totalPages:1 };
+      return { content: [], currentPage: 1, totalPages: 1 };
     }
   }
 
   //Filter by Color
   if (color) {
-    const colorSet = new Set(color.split(",").map(color => color.trim().toLowerCase()));
-    const colorRegex = colorSet.size > 0 ? new RegExp([...colorSet].join("|"), "i") : null;
+    const colorSet = new Set(
+      color.split(",").map((color) => color.trim().toLowerCase())
+    );
+    const colorRegex =
+      colorSet.size > 0 ? new RegExp([...colorSet].join("|"), "i") : null;
     query = query.where("color").regex(colorRegex);
   }
 
   //Filter by Size
   if (sizes) {
     const sizesSet = new Set(sizes);
-    
+
     query = query.where("sizes.name").in([...sizesSet]);
   }
 
@@ -179,7 +195,6 @@ async function getAllProducts(reqQuery) {
     if (stock === "in_stock") {
       //Products with quantity greater than 0
       query = query.where("quantity").gt(0);
-
     } else if (stock === "out_of_stock") {
       //Products with quantity greater than 1
       query = query.where("quantity").lte(0);
@@ -194,7 +209,6 @@ async function getAllProducts(reqQuery) {
     //Apply sorting to the query on the 'discountedPrice' field
     query = query.sort({ discountedPrice: sortDirection });
   }
-
 
   // Apply pagination
   //Count total number of products matching the current filter
@@ -213,9 +227,8 @@ async function getAllProducts(reqQuery) {
   const totalPages = Math.ceil(totalProducts / pageSize);
 
   //Return the paginated and filtered result
-  return { content: products, currentPage: pageNumber, totalPages:totalPages };
+  return { content: products, currentPage: pageNumber, totalPages: totalPages };
 }
-
 
 //Batch Products Creation Function
 async function createMultipleProduct(products) {
@@ -230,12 +243,19 @@ async function searchProduct(query) {
   const products = await Product.find({
     $or: [
       { title: { $regex: query, $options: "i" } },
-      { description: { $regex: query, $options: "i" } }
-    ]
+      { description: { $regex: query, $options: "i" } },
+    ],
   }).populate("category");
 
   return products;
 }
 
-module.exports = { createProduct, deleteProduct, updateProduct, findProductById,
-  getAllProducts, createMultipleProduct, searchProduct };
+module.exports = {
+  createProduct,
+  deleteProduct,
+  updateProduct,
+  findProductById,
+  getAllProducts,
+  createMultipleProduct,
+  searchProduct,
+};

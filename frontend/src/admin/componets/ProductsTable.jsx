@@ -15,13 +15,15 @@ import {
 } from "@mui/material";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteProduct, findProducts } from "../../redux/customer/product/Action";
+import {
+  deleteProduct,
+  findProducts,
+} from "../../redux/customer/product/Action";
 import { useLocation } from "react-router-dom";
 
 const ProductsTable = () => {
   const dispatch = useDispatch();
   const { customerProducts } = useSelector((store) => store);
-  const { deleteProductSuccess } = customerProducts;
   const location = useLocation();
 
   // Query
@@ -30,31 +32,40 @@ const ProductsTable = () => {
 
   console.log("Products::", customerProducts);
 
+  const { deleteProductSuccess, createProductSuccess, updateProductSuccess } =
+    customerProducts;
+
   useEffect(() => {
     const data = {
-      category:category || "",
+      category: category || "",
       colors: [],
       sizes: [],
-      minPrice: 0,
+      minPrice: "",
       maxPrice: 10000,
-      minDiscount: 0,
+      minDiscount: "",
       sort: "price_low",
       pageNumber: 1,
       pageSize: 10,
       stock: "",
     };
     dispatch(findProducts(data));
-  }, [dispatch, deleteProductSuccess]);
+  }, [
+    dispatch,
+    deleteProductSuccess,
+    createProductSuccess,
+    updateProductSuccess,
+    category,
+  ]);
 
   // delete product
-  const handleDeleteProduct=(productId)=>{
-    console.log("delete product ",productId)
-    dispatch(deleteProduct(productId))
-  }
+  const handleDeleteProduct = (productId) => {
+    console.log("delete product ", productId);
+    dispatch(deleteProduct(productId));
+  };
 
   return (
     <Box sx={{ padding: 2, paddingLeft: 25 }}>
-      <Card className="mt-2" sx={{bgcolor:"#DADADA"}}>
+      <Card className="mt-2" sx={{ bgcolor: "#DADADA" }}>
         <CardHeader title="All Products" />
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 800 }} aria-label="table in dashboard">
@@ -96,7 +107,7 @@ const ProductsTable = () => {
                     </Box>
                   </TableCell>
                   <TableCell sx={{ textAlign: "center" }}>
-                    {item.category.name}
+                    {item?.category?.name || ""}
                   </TableCell>
                   <TableCell sx={{ textAlign: "center" }}>
                     {item.discountedPrice}
@@ -106,7 +117,12 @@ const ProductsTable = () => {
                   </TableCell>
 
                   <TableCell sx={{ textAlign: "center" }}>
-                    <Button variant="outlined" onClick={()=>handleDeleteProduct(item._id)}>Delete</Button>
+                    <Button
+                      variant="outlined"
+                      onClick={() => handleDeleteProduct(item._id)}
+                    >
+                      Delete
+                    </Button>
                   </TableCell>
                 </TableRow>
               ))}
