@@ -63,8 +63,8 @@ export const createProduct = (product) => async (dispatch) => {
     dispatch({ type: CREATE_PRODUCT_REQUEST });
 
     const { data } = await api.post(
-      `${API_BASE_URL}/api/admin/products/`,
-      product.data
+      `${API_BASE_URL}/api/admin/products`,
+      product
     );
 
     dispatch({
@@ -74,6 +74,7 @@ export const createProduct = (product) => async (dispatch) => {
 
     console.log("created product ", data);
   } catch (error) {
+    console.log("catch create error ", error.response?.data || error.message);
     dispatch({
       type: CREATE_PRODUCT_FAILURE,
       payload:
@@ -99,6 +100,7 @@ console.log("update product ",data)
       payload: data,
     });
   } catch (error) {
+    console.log("catch update error ", error.response?.data || error.message);
     dispatch({
       type: UPDATE_PRODUCT_FAILURE,
       payload:
