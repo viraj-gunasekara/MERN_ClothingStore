@@ -15,17 +15,24 @@ import {
 } from "@mui/material";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { findProducts } from "../../redux/customer/product/Action";
+import { deleteProduct, findProducts } from "../../redux/customer/product/Action";
+import { useLocation } from "react-router-dom";
 
 const ProductsTable = () => {
   const dispatch = useDispatch();
   const { customerProducts } = useSelector((store) => store);
+  const { deleteProductSuccess } = customerProducts;
+  const location = useLocation();
+
+  // Query
+  const searchParams = new URLSearchParams(location.search);
+  const category = searchParams.get("category");
 
   console.log("Products::", customerProducts);
 
   useEffect(() => {
     const data = {
-      category: "Running Shoes",
+      category:category || "",
       colors: [],
       sizes: [],
       minPrice: 0,
@@ -37,7 +44,13 @@ const ProductsTable = () => {
       stock: "",
     };
     dispatch(findProducts(data));
-  }, []);
+  }, [dispatch, deleteProductSuccess]);
+
+  // delete product
+  const handleDeleteProduct=(productId)=>{
+    console.log("delete product ",productId)
+    dispatch(deleteProduct(productId))
+  }
 
   return (
     <Box sx={{ padding: 2, paddingLeft: 25 }}>
@@ -93,7 +106,7 @@ const ProductsTable = () => {
                   </TableCell>
 
                   <TableCell sx={{ textAlign: "center" }}>
-                    <Button variant="outlined">Delete</Button>
+                    <Button variant="outlined" onClick={()=>handleDeleteProduct(item._id)}>Delete</Button>
                   </TableCell>
                 </TableRow>
               ))}
