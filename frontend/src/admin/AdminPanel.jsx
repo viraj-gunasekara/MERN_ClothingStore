@@ -14,12 +14,19 @@ import {
   useTheme,
 } from "@mui/material";
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import PersonSearchIcon from "@mui/icons-material/PersonSearch";
 import EditCalendarIcon from "@mui/icons-material/EditCalendar";
 import AddToPhotosIcon from "@mui/icons-material/AddToPhotos";
 import { deepPurple } from "@mui/material/colors";
+
+import CreateProductForm from "./componets/CreateProductForm";
+import ProductsTable from "./componets/ProductsTable";
+import UpdateProductForm from "./componets/UpdateProductForm";
+import CustomersTable from "./componets/CustomersTable";
+import AdminDashboard from "./componets/AdminDashboard";
+import AdminNavbar from "./navigation/AdminNavbar";
 
 const menu = [
   { name: "Dashboard", path: "/admin", icon: <DashboardIcon /> },
@@ -85,12 +92,41 @@ const AdminPanel = () => {
     </Box>
   );
 
+  const handleSideBarViewInMobile = () => {
+    setSideBarVisible(true);
+  };
+
+  const handleCloseSideBar = () => {
+    setSideBarVisible(false);
+  };
+
+  const drawerVariant = isLargeScreen ? "permanent" : "temporary";
+
   return (
     <div>
       <Box sx={{ display: `${isLargeScreen ? "flex" : "block"}` }}>
         <CssBaseline />
 
-        <Drawer variant="permanent">{drawer}</Drawer>
+        {/* Admin Navbar */}
+        <AdminNavbar handleSideBarViewInMobile={handleSideBarViewInMobile} />
+        {/* Admin Drawer */}
+        <Drawer
+        variant={drawerVariant}
+        open={isLargeScreen || sideBarVisible}
+          onClose={handleCloseSideBar}
+        >{drawer}</Drawer>
+
+        {/*Admin Routes */}
+        <Box className="adminContainer" component="main" sx={{ flexGrow: 1, width: "100%", padding: 2, boxSizing: "border-box" }}>
+          <Toolbar />
+          <Routes>
+            <Route path="/" element={ <AdminDashboard />}></Route>
+            <Route path="/product/create" element={<CreateProductForm/>}></Route>
+            <Route path="/products" element={<ProductsTable/>}></Route>
+            <Route path="/product/update/:productId" element={<UpdateProductForm/>}></Route>
+            <Route path="/customers" element={<CustomersTable/>}></Route>
+          </Routes>
+        </Box>
       </Box>
     </div>
   );
