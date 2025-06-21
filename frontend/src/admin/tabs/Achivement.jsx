@@ -25,7 +25,7 @@ const TriangleImg = styled('div')({
 
 const Achivement = () => {
   return (
-    <Card sx={{ position: 'relative', paddingRight: 20 }}>
+    <Card sx={{ position: 'relative', paddingRight: 28 }}>
       <CardContent>
         <Typography variant='h6' sx={{ letterSpacing: '0.25px' }}>
           ViraJ's Clothing Store
