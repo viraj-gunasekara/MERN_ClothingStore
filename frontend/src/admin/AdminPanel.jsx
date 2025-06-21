@@ -117,7 +117,7 @@ const AdminPanel = () => {
         >{drawer}</Drawer>
 
         {/*Admin Routes */}
-        <Box className="adminContainer" component="main" sx={{ flexGrow: 1, pl: { xs: "3px", lg: 0 }, }}>
+        <Box className="adminContainer" component="main" sx={{ flexGrow: 1, width: "70%", padding: 2, boxSizing: "border-box" }}>
           <Toolbar />
           <Routes>
             <Route path="/" element={ <AdminDashboard />}></Route>
