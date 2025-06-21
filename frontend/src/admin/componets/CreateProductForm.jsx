@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Box, Card, Paper, Typography } from "@mui/material";
+import { Box, Card, Typography } from "@mui/material";
 import {
   Grid,
   TextField,
@@ -30,12 +30,12 @@ const CreateProductForm = () => {
     color: "",
     discountedPrice: "",
     price: "",
-    discountPersent: "",
+    discountPersent: 0,
     size: initialSizes,
     quantity: "",
-    topLavelCategory: "",
-    secondLavelCategory: "",
-    thirdLavelCategory: "",
+    topLevelCategory: "",
+    secondLevelCategory: "",
+    thirdLevelCategory: "",
     description: "",
   });
 const dispatch=useDispatch();
@@ -70,30 +70,11 @@ const jwt=localStorage.getItem("jwt")
     }));
   };
 
-  // const handleRemoveSize = (index) => {
-  //   const sizes = [...productData.size];
-  //   sizes.splice(index, 1);
-  //   setProductData((prevState) => ({
-  //     ...prevState,
-  //     size: sizes,
-  //   }));
-  // };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(createProduct(productData))
     console.log(productData);
   };
-
-  // const handleAddProducts=(data)=>{
-  //   for(let item of data){
-  //     const productsData={
-  //       data:item,
-  //       jwt,
-  //     }
-  //     dispatch(createProduct(productsData))
-  //   }
-  // }
 
   return (
     <Box sx={{ padding: 2, paddingLeft: 25 }}>
@@ -127,6 +108,7 @@ const jwt=localStorage.getItem("jwt")
               name="brand"
               value={productData.brand}
               onChange={handleChange}
+              required
             />
           </Grid>
         
@@ -137,6 +119,7 @@ const jwt=localStorage.getItem("jwt")
               name="title"
               value={productData.title}
               onChange={handleChange}
+              required
             />
           </Grid>
           <Grid item size={{xs:12, sm:6}}>
@@ -146,6 +129,7 @@ const jwt=localStorage.getItem("jwt")
               name="color"
               value={productData.color}
               onChange={handleChange}
+              required
             />
           </Grid>
           <Grid item size={{xs:12, sm:6}}>
@@ -156,6 +140,7 @@ const jwt=localStorage.getItem("jwt")
               value={productData.quantity}
               onChange={handleChange}
               type="number"
+              required
             />
           </Grid>
           <Grid item size={{xs:12, sm:4}}>
@@ -166,16 +151,18 @@ const jwt=localStorage.getItem("jwt")
               value={productData.price}
               onChange={handleChange}
               type="number"
+              required
             />
           </Grid>
           <Grid item size={{xs:12, sm:4}}>
             <TextField
               fullWidth
-              label="Discounted Price"
+              label="Discounted (Final) Price"
               name="discountedPrice"
               value={productData.discountedPrice}
               onChange={handleChange}
               type="number"
+              required
             />
           </Grid>
           
@@ -193,8 +180,8 @@ const jwt=localStorage.getItem("jwt")
             <FormControl fullWidth>
               <InputLabel>Top Level Category</InputLabel>
               <Select
-                name="topLavelCategory"
-                value={productData.topLavelCategory}
+                name="topLevelCategory"
+                value={productData.topLevelCategory}
                 onChange={handleChange}
                 label="Top Level Category"
               >
@@ -208,8 +195,8 @@ const jwt=localStorage.getItem("jwt")
             <FormControl fullWidth>
               <InputLabel>Second Level Category</InputLabel>
               <Select
-                name="secondLavelCategory"
-                value={productData.secondLavelCategory}
+                name="secondLevelCategory"
+                value={productData.secondLevelCategory}
                 onChange={handleChange}
                 label="Second Level Category"
               >
@@ -223,8 +210,8 @@ const jwt=localStorage.getItem("jwt")
             <FormControl fullWidth>
               <InputLabel>Third Level Category</InputLabel>
               <Select
-                name="thirdLavelCategory"
-                value={productData.thirdLavelCategory}
+                name="thirdLevelCategory"
+                value={productData.thirdLevelCategory}
                 onChange={handleChange}
                 label="Third Level Category"
               >
@@ -246,10 +233,11 @@ const jwt=localStorage.getItem("jwt")
               rows={3}
               onChange={handleChange}
               value={productData.description}
+              required
             />
           </Grid>
           {productData.size.map((size, index) => (
-            <Grid container item spacing={3} >
+            <Grid container item spacing={2} >
               <Grid item size={{xs:12, sm:6}}>
                 <TextField
                   label="Size Name"
@@ -266,7 +254,6 @@ const jwt=localStorage.getItem("jwt")
                   name="size_quantity"
                   type="number"
                   onChange={(event) => handleSizeChange(event, index)}
-                  required
                   fullWidth
                 />
               </Grid> </Grid>
