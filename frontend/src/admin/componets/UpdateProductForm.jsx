@@ -59,7 +59,7 @@ const UpdateProductForm = ({ handleClose, open }) => {
       aria-describedby="modal-modal-description"
       size="large"
     >
-      <Box sx={{ padding: 2, paddingLeft: 25, style }} className="rounded-md">
+      <Box sx={{ padding: 2, paddingLeft: 35, style, paddingRight: 25 }} className="rounded-md">
         <Card className="mt-2 p-6">
 
           {/* Close Icon */}

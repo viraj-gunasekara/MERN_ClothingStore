@@ -1,6 +1,7 @@
 ===========auth routes===========
 //Sign Up - POST
 http://localhost:5454/auth/signup
+*Body > raw > JSON
 {
   "firstName": "Viraj",
   "lastName": "S",
@@ -27,6 +28,31 @@ http://localhost:5454/api/users/profile
 *ADMIN
 //Create Product - POST
 http://localhost:5454/api/admin/products
+*Body > raw > JSON
+{
+  "imageUrl": "https://img.freepik.com/premium-photo/black-leather-men-s-sneakers-isolated-black-grunge-background-sports-shoes_154092-28301.jpg?ga=GA1.1.210513954.1749497838&semt=ais_hybrid&w=740",
+  "title": "Men's Running Shoes",
+  "description": "Running shoes for men.",
+  "price": 3599,
+  "discountedPrice": 2889,
+  "discountPersent": 25,
+  "quantity": 10,
+  "brand": "Nike",
+  "color": "Black",
+  "size": [
+    { "name": "7", "quantity": 10 },
+    { "name": "8", "quantity": 20 },
+    { "name": "9", "quantity": 15 }
+  ],
+  "topLevelCategory": "Men",
+  "secondLevelCategory": "Shoes",
+  "thirdLevelCategory": "Running Shoes"
+}
+
+//Update A Product - PUT(full update) / PATCH(partial updates)
+http://localhost:5454/api/admin/products/68583760bea2fe69e234944d
+*Body > raw > JSON
+*Update nessery fields in the JSON file 
 {
   "imageUrl": "https://img.freepik.com/premium-photo/black-leather-men-s-sneakers-isolated-black-grunge-background-sports-shoes_154092-28301.jpg?ga=GA1.1.210513954.1749497838&semt=ais_hybrid&w=740",
   "title": "Men's Running Shoes",
@@ -47,9 +73,8 @@ http://localhost:5454/api/admin/products
   "thirdLevelCategory": "Running Shoes"
 }
 
-//Create Set Of Products - POST
-//Update A Product - PUT(full update) / PATCH(partial updates)
 //Delete A Product - DELETE
+http://localhost:5454/api/admin/products/68507ba5629fa99d611d45be
 
 ===========product routes===========
 *USER
