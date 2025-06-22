@@ -14,12 +14,6 @@ import { Fragment } from "react";
 import { useDispatch } from "react-redux";
 import { createProduct } from "../../redux/customer/product/Action";
 
-const initialSizes = [
-  { name: "S", quantity: 0 },
-  { name: "M", quantity: 0 },
-  { name: "L", quantity: 0 },
-];
-
 const CreateProductForm = () => {
   const initialProductData = {
     imageUrl: "",

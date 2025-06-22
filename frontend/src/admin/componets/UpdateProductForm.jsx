@@ -302,7 +302,7 @@ const UpdateProductForm = ({ handleClose, open, product }) => {
                     <Grid item size={{ xs: 12, sm: 6 }}>
                       <TextField
                         label={`Quantity for ${sizeItem.name}`}
-                        name={`size_quantity_${sizeItem.name}`}
+                        name="quantity"
                         type="number"
                         size="small"
                         onChange={(event) => handleSizeChange(event, index)}

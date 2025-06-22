@@ -90,12 +90,52 @@ async function deleteProduct(productId) {
 
 // Update a product by ID
 async function updateProduct(productId, reqData) {
-  //ind the product by ID and update its fields with the new data (reqData)
-  const updatedProduct = await Product.findByIdAndUpdate(productId, reqData);
+  // 1. Find or create category hierarchy
+  let topLevel = await Category.findOne({ name: reqData.topLevelCategory });
+  if (!topLevel) {
+    topLevel = await new Category({ name: reqData.topLevelCategory, level: 1 }).save();
+  }
 
-  //return the updated product document to db
+  let secondLevel = await Category.findOne({
+    name: reqData.secondLevelCategory,
+    parentCategory: topLevel._id,
+  });
+  if (!secondLevel) {
+    secondLevel = await new Category({
+      name: reqData.secondLevelCategory,
+      parentCategory: topLevel._id,
+      level: 2,
+    }).save();
+  }
+
+  let thirdLevel = await Category.findOne({
+    name: reqData.thirdLevelCategory,
+    parentCategory: secondLevel._id,
+  });
+  if (!thirdLevel) {
+    thirdLevel = await new Category({
+      name: reqData.thirdLevelCategory,
+      parentCategory: secondLevel._id,
+      level: 3,
+    }).save();
+  }
+
+  // 2. Assign resolved third level category to reqData
+  reqData.category = thirdLevel._id;
+
+  // 3. Remove temporary fields
+  delete reqData.topLevelCategory;
+  delete reqData.secondLevelCategory;
+  delete reqData.thirdLevelCategory;
+
+  // 4. Update the product
+  const updatedProduct = await Product.findByIdAndUpdate(productId, reqData, {
+    new: true,
+  });
+
   return updatedProduct;
 }
+
 
 /* helper functions */
 // Find a product by ID & its belong category
