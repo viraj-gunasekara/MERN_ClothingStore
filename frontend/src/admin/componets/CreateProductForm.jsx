@@ -88,15 +88,15 @@ const CreateProductForm = () => {
       <Card className="mt-2 p-6">
         <Fragment>
           <Typography
-            variant="h4"
-            sx={{ textAlign: "center" }}
+            variant="h5"
+            sx={{ textAlign: "center", paddingBottom: 3, fontWeight: "semi-bold" }}
             className="py-3 text-center "
           >
             Add New Product
           </Typography>
           <form
             onSubmit={handleSubmit}
-            className="createProductContainer min-h-screen"
+            className="min-h-screen"
           >
             <Grid container spacing={2}>
               <Grid item size={{ xs: 12 }}>
@@ -104,6 +104,7 @@ const CreateProductForm = () => {
                   fullWidth
                   label="Image URL"
                   name="imageUrl"
+                  size="small"
                   value={productData.imageUrl}
                   onChange={handleChange}
                 />
@@ -113,6 +114,7 @@ const CreateProductForm = () => {
                   fullWidth
                   label="Brand"
                   name="brand"
+                  size="small"
                   value={productData.brand}
                   onChange={handleChange}
                   required
@@ -124,6 +126,7 @@ const CreateProductForm = () => {
                   fullWidth
                   label="Title"
                   name="title"
+                  size="small"
                   value={productData.title}
                   onChange={handleChange}
                   required
@@ -134,6 +137,7 @@ const CreateProductForm = () => {
                   fullWidth
                   label="Color"
                   name="color"
+                  size="small"
                   value={productData.color}
                   onChange={handleChange}
                   required
@@ -144,6 +148,7 @@ const CreateProductForm = () => {
                   fullWidth
                   label="Quantity"
                   name="quantity"
+                  size="small"
                   value={productData.quantity}
                   onChange={handleChange}
                   type="number"
@@ -155,6 +160,7 @@ const CreateProductForm = () => {
                   fullWidth
                   label="Price"
                   name="price"
+                  size="small"
                   value={productData.price}
                   onChange={handleChange}
                   type="number"
@@ -166,6 +172,7 @@ const CreateProductForm = () => {
                   fullWidth
                   label="Discounted (Final) Price"
                   name="discountedPrice"
+                  size="small"
                   value={productData.discountedPrice}
                   onChange={handleChange}
                   type="number"
@@ -178,13 +185,14 @@ const CreateProductForm = () => {
                   fullWidth
                   label="Discount Percentage"
                   name="discountPersent"
+                  size="small"
                   value={productData.discountPersent}
                   onChange={handleChange}
                   type="number"
                 />
               </Grid>
               <Grid item size={{ xs: 6, sm: 4 }}>
-                <FormControl fullWidth>
+                <FormControl fullWidth size="small">
                   <InputLabel>Top Level Category</InputLabel>
                   <Select
                     name="topLevelCategory"
@@ -199,7 +207,7 @@ const CreateProductForm = () => {
                 </FormControl>
               </Grid>
               <Grid item size={{ xs: 6, sm: 4 }}>
-                <FormControl fullWidth>
+                <FormControl fullWidth size="small">
                   <InputLabel>Second Level Category</InputLabel>
                   <Select
                     name="secondLevelCategory"
@@ -214,7 +222,7 @@ const CreateProductForm = () => {
                 </FormControl>
               </Grid>
               <Grid item size={{ xs: 6, sm: 4 }}>
-                <FormControl fullWidth>
+                <FormControl fullWidth size="small">
                   <InputLabel>Third Level Category</InputLabel>
                   <Select
                     name="thirdLevelCategory"
@@ -241,6 +249,7 @@ const CreateProductForm = () => {
                   onChange={handleChange}
                   value={productData.description}
                   required
+                  size="small"
                 />
               </Grid>
               {productData.size.map((size, index) => (
@@ -253,6 +262,7 @@ const CreateProductForm = () => {
                       onChange={(event) => handleSizeChange(event, index)}
                       required
                       fullWidth
+                      size="small"
                     />
                   </Grid>
                   <Grid item size={{ xs: 12, sm: 6 }}>
@@ -262,6 +272,7 @@ const CreateProductForm = () => {
                       type="number"
                       onChange={(event) => handleSizeChange(event, index)}
                       fullWidth
+                      size="small"
                     />
                   </Grid>{" "}
                 </Grid>
@@ -271,7 +282,7 @@ const CreateProductForm = () => {
                   variant="contained"
                   sx={{ p: 1.8 }}
                   className="py-20"
-                  size="large"
+                  size="small"
                   type="submit"
                 >
                   Add New Product
