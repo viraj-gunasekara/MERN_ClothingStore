@@ -61,7 +61,7 @@ const renderStats = () => {
 
 const MonthlyOverView = () => {
   return (
-    <Card>
+    <Card sx={{ marginRight: 2}}>
       <CardHeader
       title='Monthly Overview'
         action={

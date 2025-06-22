@@ -1,3 +1,4 @@
+import { Box } from '@mui/material'
 import Button from '@mui/material/Button'
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
@@ -25,7 +26,8 @@ const TriangleImg = styled('div')({
 
 const Achivement = () => {
   return (
-    <Card sx={{ position: 'relative', paddingRight: 28 }}>
+    <Box sx={{ paddingLeft: 25 }}>
+      <Card sx={{ position: 'relative' }}>
       <CardContent>
         <Typography variant='h6' sx={{ letterSpacing: '0.25px' }}>
           ViraJ's Clothing Store
@@ -41,6 +43,7 @@ const Achivement = () => {
         <TrophyImg src='https://cdn.iconscout.com/icon/premium/png-512-thumb/trophy-3380498-2806548.png?f=webp&w=512' alt=''/>
       </CardContent>
     </Card>
+    </Box>
   )
 }
 
