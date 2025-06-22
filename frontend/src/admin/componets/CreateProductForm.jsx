@@ -230,6 +230,7 @@ const CreateProductForm = () => {
                     onChange={handleChange}
                     label="Third Level Category"
                   >
+                    <MenuItem value="mens_kurta">Mens Kurta</MenuItem>
                     <MenuItem value="top">Tops</MenuItem>
                     <MenuItem value="women_dress">Dresses</MenuItem>
                     <MenuItem value="t-shirts">T-Shirts</MenuItem>

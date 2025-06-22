@@ -14,6 +14,8 @@ import {
 } from "@mui/material";
 import React, { Fragment, useEffect, useState } from "react";
 import DisabledByDefaultIcon from "@mui/icons-material/DisabledByDefault";
+import { useDispatch } from "react-redux";
+import { updateProduct } from "../../redux/customer/product/Action";
 
 const style = {
   position: "absolute",
@@ -55,6 +57,7 @@ const UpdateProductForm = ({ handleClose, open, product }) => {
       setProductData({
         ...initialProductData,
         ...product,
+        size: product?.sizes || [],
         topLevelCategory:
           product?.category?.parentCategory?.parentCategory?.name || "",
         secondLevelCategory: product?.category?.parentCategory?.name || "",
@@ -75,12 +78,27 @@ const UpdateProductForm = ({ handleClose, open, product }) => {
     let { name, value } = e.target;
     name === "size_quantity" ? (name = "quantity") : (name = e.target.name);
 
-    const sizes = [...productData.size];
-    sizes[index][name] = value;
+    const updatedSizes = [...productData.size];
+    updatedSizes[index][name] = value;
     setProductData((prevState) => ({
       ...prevState,
-      size: sizes,
+      size: updatedSizes,
     }));
+  };
+
+  // submit updated product
+  const dispatch = useDispatch();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const updatedProduct = {
+      ...productData,
+      productId: product._id,
+    };
+
+    dispatch(updateProduct(updatedProduct));
+    handleClose(); // Close modal after update
   };
 
   return (
@@ -112,7 +130,7 @@ const UpdateProductForm = ({ handleClose, open, product }) => {
               Update Product
             </Typography>
             {/* product form */}
-            <form>
+            <form onSubmit={handleSubmit}>
               <Grid container spacing={2}>
                 <Grid item size={{ xs: 12 }}>
                   <TextField
@@ -215,9 +233,9 @@ const UpdateProductForm = ({ handleClose, open, product }) => {
                       onChange={handleChange}
                       label="Top Level Category"
                     >
-                      <MenuItem value="Men">Men</MenuItem>
-                      <MenuItem value="Women">Women</MenuItem>
-                      <MenuItem value="Kids">Kids</MenuItem>
+                      <MenuItem value="men">Men</MenuItem>
+                      <MenuItem value="women">Women</MenuItem>
+                      <MenuItem value="kids">Kids</MenuItem>
                     </Select>
                   </FormControl>
                 </Grid>
@@ -230,9 +248,9 @@ const UpdateProductForm = ({ handleClose, open, product }) => {
                       onChange={handleChange}
                       label="Second Level Category"
                     >
-                      <MenuItem value="Clothing">Clothing</MenuItem>
-                      <MenuItem value="Accessories">Accessories</MenuItem>
-                      <MenuItem value="Brands">Brands</MenuItem>
+                      <MenuItem value="clothing">Clothing</MenuItem>
+                      <MenuItem value="accessories">Accessories</MenuItem>
+                      <MenuItem value="brands">Brands</MenuItem>
                     </Select>
                   </FormControl>
                 </Grid>
@@ -245,11 +263,12 @@ const UpdateProductForm = ({ handleClose, open, product }) => {
                       onChange={handleChange}
                       label="Third Level Category"
                     >
-                      <MenuItem value="Top">Tops</MenuItem>
-                      <MenuItem value="Women_dress">Dresses</MenuItem>
-                      <MenuItem value="T-Shirts">T-Shirts</MenuItem>
-                      <MenuItem value="Saree">Saree</MenuItem>
-                      <MenuItem value="Lengha Choli">Lengha Choli</MenuItem>
+                      <MenuItem value="mens_kurta">Mens Kurta</MenuItem>
+                      <MenuItem value="top">Tops</MenuItem>
+                      <MenuItem value="women_dress">Dresses</MenuItem>
+                      <MenuItem value="t-shirts">T-Shirts</MenuItem>
+                      <MenuItem value="saree">Saree</MenuItem>
+                      <MenuItem value="lengha_choli">Lengha Choli</MenuItem>
                     </Select>
                   </FormControl>
                 </Grid>
@@ -267,14 +286,14 @@ const UpdateProductForm = ({ handleClose, open, product }) => {
                     required
                   />
                 </Grid>
-                {productData.size.map((size, index) => (
+                {productData.size?.map((sizeItem, index) => (
                   <Grid container item spacing={2}>
                     <Grid item size={{ xs: 12, sm: 6 }}>
                       <TextField
                         label="Size Name"
                         name="name"
                         size="small"
-                        value={size.name}
+                        value={sizeItem.name}
                         onChange={(event) => handleSizeChange(event, index)}
                         required
                         fullWidth
@@ -282,12 +301,13 @@ const UpdateProductForm = ({ handleClose, open, product }) => {
                     </Grid>
                     <Grid item size={{ xs: 12, sm: 6 }}>
                       <TextField
-                        label="Quantity"
-                        name="size_quantity"
+                        label={`Quantity for ${sizeItem.name}`}
+                        name={`size_quantity_${sizeItem.name}`}
                         type="number"
                         size="small"
                         onChange={(event) => handleSizeChange(event, index)}
                         fullWidth
+                        value={sizeItem.quantity}
                       />
                     </Grid>{" "}
                   </Grid>

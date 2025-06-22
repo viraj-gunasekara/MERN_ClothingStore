@@ -17,12 +17,17 @@ import {
 } from "./ActionTypes";
 
 const initialState = {
-  products: [],
+  products: {
+    content: [],
+    currentPage: 1,
+    totalPages: 1,
+  },
   product: null,
   loading: false,
   error: null,
-  deleteProduct: null,
   deleteProductSuccess: false,
+  createProductSuccess: false,
+  updateProductSuccess: false,
 };
 
 export const customerProductReducer = (state = initialState, action) => {
@@ -75,6 +80,7 @@ export const customerProductReducer = (state = initialState, action) => {
         ...state,
         loading: true,
         error: null,
+        updateProductSuccess: false,
       };
     case UPDATE_PRODUCT_SUCCESS:
       return {
@@ -86,6 +92,7 @@ export const customerProductReducer = (state = initialState, action) => {
             product._id === action.payload._id ? action.payload : product
           ),
         },
+        updateProductSuccess: true,
       };
     case UPDATE_PRODUCT_FAILURE:
       return {
