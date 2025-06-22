@@ -3,22 +3,28 @@ import Grid from "@mui/material/Grid";
 import Achivement from "../tabs/Achivement";
 import { Box } from "@mui/material";
 import MonthlyOverView from "../tabs/MonthlyOverView";
+import ProductsTableView from "../tabs/ProductsTableView";
+import CustomersTableView from "../tabs/CustomersTableView";
 
 const AdminDashboard = () => {
   return (
     <div>
-      <Grid container spacing={3} paddingTop={1} paddingLeft={27}>
+      <Grid container spacing={3} paddingTop={1} >
         {/* Achivement */}
-        <Grid item xs={12} md={4}>
+        <Grid item size={{ xs: 12, md: 5 }}>
             <Achivement />
         </Grid>
         {/* Overview */}
-        <Grid item xs={12} md={8}>
+        <Grid item size={{ xs: 12, md: 7 }}>
             <MonthlyOverView/>
         </Grid>
-
-        <Grid item xs={12} md={12}>
-
+        {/* Customers Table View  */}
+        <Grid item size={{ xs: 12, md: 5 }}>
+            <CustomersTableView/>
+        </Grid>
+        {/* Products Table View  */}
+        <Grid item size={{ xs: 12, md: 7 }}>
+            <ProductsTableView/>
         </Grid>
       </Grid>
     </div>

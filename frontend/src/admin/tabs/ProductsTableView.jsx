@@ -21,7 +21,7 @@ import {
 } from "../../redux/customer/product/Action";
 import { useLocation } from "react-router-dom";
 
-const ProductsTable = () => {
+const ProductsTableView = () => {
   const dispatch = useDispatch();
   const { customerProducts } = useSelector((store) => store);
   const location = useLocation();
@@ -62,9 +62,10 @@ const ProductsTable = () => {
     console.log("delete product ", productId);
     dispatch(deleteProduct(productId));
   };
+  
 
   return (
-    <Box sx={{ padding: 2, paddingLeft: 25 }}>
+    <Box sx={{ marginRight: 2}}>
       <Card className="mt-2" sx={{ bgcolor: "#DADADA" }}>
         <CardHeader title="All Products" />
         <TableContainer component={Paper}>
@@ -73,18 +74,18 @@ const ProductsTable = () => {
               <TableRow>
                 <TableCell>Image</TableCell>
                 <TableCell>Title & Brand</TableCell>
-                <TableCell sx={{ textAlign: "center" }}>1st Category</TableCell>
-                <TableCell sx={{ textAlign: "center" }}>2nd Category</TableCell>
-                <TableCell sx={{ textAlign: "center" }}>3rd Category</TableCell>
+                <TableCell sx={{ textAlign: "left" }}>Category Levels</TableCell>
+                <TableCell sx={{ textAlign: "center" }}>Item Price</TableCell>
                 <TableCell sx={{ textAlign: "center" }}>Discount %</TableCell>
                 <TableCell sx={{ textAlign: "center" }}>Sale Price</TableCell>
-                <TableCell sx={{ textAlign: "center" }}>Quantity</TableCell>
-                <TableCell sx={{ textAlign: "center" }}>Update</TableCell>
-                <TableCell sx={{ textAlign: "center" }}>Delete</TableCell>
+                <TableCell sx={{ textAlign: "center" }}>Stock Quantity</TableCell>
+
               </TableRow>
             </TableHead>
             <TableBody>
+              
               {customerProducts?.products?.content?.map((item) => (
+                
                 <TableRow
                   hover
                   key={item.name}
@@ -111,21 +112,32 @@ const ProductsTable = () => {
                     </Box>
                   </TableCell>
 
-                  {/* 1st Category, 2nd Category, 3rd Category  */}
-                  <TableCell sx={{ textAlign: "center" }}>
-                    {item?.category?.parentCategory?.parentCategory?.name || ""}
-                  </TableCell>
-                  <TableCell sx={{ textAlign: "center" }}>
-                    {item?.category?.parentCategory?.name || ""}
-                  </TableCell>
-                  <TableCell sx={{ textAlign: "center" }}>
-                    {item?.category?.name || ""}
+                  {/* Category Lvls */}
+                  <TableCell
+                    sx={{ py: (theme) => `${theme.spacing(0.5)} !important` }}
+                  >
+                    <Box sx={{ display: "flex", flexDirection: "column", textAlign: "left" }}>
+                      <Typography
+                        sx={{
+                          fontWeight: 500,
+                          fontSize: "0.875rem !important",
+                        }}
+                      >
+                        {item?.category?.parentCategory?.parentCategory?.name || ""}
+                      </Typography>
+                      <Typography variant="caption">{item?.category?.name || ""}</Typography>
+                    </Box>
                   </TableCell>
 
-                  {/*Discount %, SalePrice, Quantity  */}
+                  {/* Item Price */}
+                  <TableCell sx={{ textAlign: "center" }}>
+                    {item.price}
+                  </TableCell>
+                  {/* Discount % */}
                   <TableCell sx={{ textAlign: "center" }}>
                     {item.discountPersent}
                   </TableCell>
+                  {/* Sale Price */}
                   <TableCell sx={{ textAlign: "center" }}>
                     {item.discountedPrice}
                   </TableCell>
@@ -133,18 +145,6 @@ const ProductsTable = () => {
                     {item.quantity}
                   </TableCell>
 
-                  {/* Update, Delete  */}
-                  <TableCell sx={{ textAlign: "center" }}>
-                    <Button variant="outlined">Update</Button>
-                  </TableCell>
-                  <TableCell sx={{ textAlign: "center" }}>
-                    <Button
-                      variant="outlined"
-                      onClick={() => handleDeleteProduct(item._id)}
-                    >
-                      Delete
-                    </Button>
-                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -155,4 +155,4 @@ const ProductsTable = () => {
   );
 };
 
-export default ProductsTable;
+export default ProductsTableView;
