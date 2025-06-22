@@ -12,8 +12,10 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import DisabledByDefaultIcon from "@mui/icons-material/DisabledByDefault";
+import { useDispatch } from "react-redux";
+import { updateProduct } from "../../redux/customer/product/Action";
 
 const style = {
   position: "absolute",
@@ -27,8 +29,7 @@ const style = {
   outline: "none",
 };
 
-
-const UpdateProductForm = ({ handleClose, open }) => {
+const UpdateProductForm = ({ handleClose, open, product }) => {
   const initialProductData = {
     imageUrl: "",
     brand: "",
@@ -51,6 +52,55 @@ const UpdateProductForm = ({ handleClose, open }) => {
 
   const [productData, setProductData] = useState(initialProductData);
 
+  useEffect(() => {
+    if (product) {
+      setProductData({
+        ...initialProductData,
+        ...product,
+        size: product?.sizes || [],
+        topLevelCategory:
+          product?.category?.parentCategory?.parentCategory?.name || "",
+        secondLevelCategory: product?.category?.parentCategory?.name || "",
+        thirdLevelCategory: product?.category?.name || "",
+      });
+    }
+  }, [product]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setProductData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSizeChange = (e, index) => {
+    let { name, value } = e.target;
+    name === "size_quantity" ? (name = "quantity") : (name = e.target.name);
+
+    const updatedSizes = [...productData.size];
+    updatedSizes[index][name] = value;
+    setProductData((prevState) => ({
+      ...prevState,
+      size: updatedSizes,
+    }));
+  };
+
+  // submit updated product
+  const dispatch = useDispatch();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const updatedProduct = {
+      ...productData,
+      productId: product._id,
+    };
+
+    dispatch(updateProduct(updatedProduct));
+    handleClose(); // Close modal after update
+  };
+
   return (
     <Modal
       open={open}
@@ -59,13 +109,15 @@ const UpdateProductForm = ({ handleClose, open }) => {
       aria-describedby="modal-modal-description"
       size="large"
     >
-      <Box sx={{ padding: 2, paddingLeft: 25, style }} className="rounded-md">
+      <Box
+        sx={{ padding: 2, paddingLeft: 35, style, paddingRight: 25 }}
+        className="rounded-md"
+      >
         <Card className="mt-2 p-6">
-
           {/* Close Icon */}
           <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
             <IconButton onClick={handleClose}>
-              <DisabledByDefaultIcon/>
+              <DisabledByDefaultIcon />
             </IconButton>
           </Box>
 
@@ -78,7 +130,7 @@ const UpdateProductForm = ({ handleClose, open }) => {
               Update Product
             </Typography>
             {/* product form */}
-            <form>
+            <form onSubmit={handleSubmit}>
               <Grid container spacing={2}>
                 <Grid item size={{ xs: 12 }}>
                   <TextField
@@ -86,8 +138,8 @@ const UpdateProductForm = ({ handleClose, open }) => {
                     label="Image URL"
                     name="imageUrl"
                     size="small"
-                    // value={productData.imageUrl}
-                    // onChange={handleChange}
+                    value={productData.imageUrl}
+                    onChange={handleChange}
                   />
                 </Grid>
                 <Grid item size={{ xs: 12, sm: 6 }}>
@@ -96,8 +148,8 @@ const UpdateProductForm = ({ handleClose, open }) => {
                     label="Brand"
                     name="brand"
                     size="small"
-                    // value={productData.brand}
-                    // onChange={handleChange}
+                    value={productData.brand}
+                    onChange={handleChange}
                     required
                   />
                 </Grid>
@@ -108,8 +160,8 @@ const UpdateProductForm = ({ handleClose, open }) => {
                     label="Title"
                     name="title"
                     size="small"
-                    // value={productData.title}
-                    // onChange={handleChange}
+                    value={productData.title}
+                    onChange={handleChange}
                     required
                   />
                 </Grid>
@@ -119,8 +171,8 @@ const UpdateProductForm = ({ handleClose, open }) => {
                     label="Color"
                     name="color"
                     size="small"
-                    // value={productData.color}
-                    // onChange={handleChange}
+                    value={productData.color}
+                    onChange={handleChange}
                     required
                   />
                 </Grid>
@@ -130,8 +182,8 @@ const UpdateProductForm = ({ handleClose, open }) => {
                     label="Quantity"
                     name="quantity"
                     size="small"
-                    // value={productData.quantity}
-                    // onChange={handleChange}
+                    value={productData.quantity}
+                    onChange={handleChange}
                     type="number"
                     required
                   />
@@ -142,8 +194,8 @@ const UpdateProductForm = ({ handleClose, open }) => {
                     label="Price"
                     name="price"
                     size="small"
-                    // value={productData.price}
-                    // onChange={handleChange}
+                    value={productData.price}
+                    onChange={handleChange}
                     type="number"
                     required
                   />
@@ -154,8 +206,8 @@ const UpdateProductForm = ({ handleClose, open }) => {
                     label="Discounted (Final) Price"
                     name="discountedPrice"
                     size="small"
-                    // value={productData.discountedPrice}
-                    // onChange={handleChange}
+                    value={productData.discountedPrice}
+                    onChange={handleChange}
                     type="number"
                     required
                   />
@@ -167,8 +219,8 @@ const UpdateProductForm = ({ handleClose, open }) => {
                     label="Discount Percentage"
                     name="discountPersent"
                     size="small"
-                    // value={productData.discountPersent}
-                    // onChange={handleChange}
+                    value={productData.discountPersent}
+                    onChange={handleChange}
                     type="number"
                   />
                 </Grid>
@@ -177,8 +229,8 @@ const UpdateProductForm = ({ handleClose, open }) => {
                     <InputLabel>Top Level Category</InputLabel>
                     <Select
                       name="topLevelCategory"
-                      // value={productData.topLevelCategory}
-                      // onChange={handleChange}
+                      value={productData.topLevelCategory}
+                      onChange={handleChange}
                       label="Top Level Category"
                     >
                       <MenuItem value="men">Men</MenuItem>
@@ -192,8 +244,8 @@ const UpdateProductForm = ({ handleClose, open }) => {
                     <InputLabel>Second Level Category</InputLabel>
                     <Select
                       name="secondLevelCategory"
-                      // value={productData.secondLevelCategory}
-                      // onChange={handleChange}
+                      value={productData.secondLevelCategory}
+                      onChange={handleChange}
                       label="Second Level Category"
                     >
                       <MenuItem value="clothing">Clothing</MenuItem>
@@ -207,10 +259,11 @@ const UpdateProductForm = ({ handleClose, open }) => {
                     <InputLabel>Third Level Category</InputLabel>
                     <Select
                       name="thirdLevelCategory"
-                      // value={productData.thirdLevelCategory}
-                      // onChange={handleChange}
+                      value={productData.thirdLevelCategory}
+                      onChange={handleChange}
                       label="Third Level Category"
                     >
+                      <MenuItem value="mens_kurta">Mens Kurta</MenuItem>
                       <MenuItem value="top">Tops</MenuItem>
                       <MenuItem value="women_dress">Dresses</MenuItem>
                       <MenuItem value="t-shirts">T-Shirts</MenuItem>
@@ -228,35 +281,36 @@ const UpdateProductForm = ({ handleClose, open }) => {
                     name="description"
                     rows={3}
                     size="small"
-                    // onChange={handleChange}
-                    // value={productData.description}
+                    onChange={handleChange}
+                    value={productData.description}
                     required
                   />
                 </Grid>
-                {productData.size.map((size, index) => (
-                <Grid container item spacing={2}>
-                  <Grid item size={{ xs: 12, sm: 6 }}>
-                    <TextField
-                      label="Size Name"
-                      name="name"
-                      size="small"
-                      value={size.name}
-                      // onChange={(event) => handleSizeChange(event, index)}
-                      required
-                      fullWidth
-                    />
+                {productData.size?.map((sizeItem, index) => (
+                  <Grid container item spacing={2}>
+                    <Grid item size={{ xs: 12, sm: 6 }}>
+                      <TextField
+                        label="Size Name"
+                        name="name"
+                        size="small"
+                        value={sizeItem.name}
+                        onChange={(event) => handleSizeChange(event, index)}
+                        required
+                        fullWidth
+                      />
+                    </Grid>
+                    <Grid item size={{ xs: 12, sm: 6 }}>
+                      <TextField
+                        label={`Quantity for ${sizeItem.name}`}
+                        name="quantity"
+                        type="number"
+                        size="small"
+                        onChange={(event) => handleSizeChange(event, index)}
+                        fullWidth
+                        value={sizeItem.quantity}
+                      />
+                    </Grid>{" "}
                   </Grid>
-                  <Grid item size={{ xs: 12, sm: 6 }}>
-                    <TextField
-                      label="Quantity"
-                      name="size_quantity"
-                      type="number"
-                      size="small"
-                      // onChange={(event) => handleSizeChange(event, index)}
-                      fullWidth
-                    />
-                  </Grid>{" "}
-                </Grid>
                 ))}
                 <Grid item size={{ xs: 12 }}>
                   <Button

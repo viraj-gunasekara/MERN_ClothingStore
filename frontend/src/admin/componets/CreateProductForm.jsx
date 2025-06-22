@@ -14,12 +14,6 @@ import { Fragment } from "react";
 import { useDispatch } from "react-redux";
 import { createProduct } from "../../redux/customer/product/Action";
 
-const initialSizes = [
-  { name: "S", quantity: 0 },
-  { name: "M", quantity: 0 },
-  { name: "L", quantity: 0 },
-];
-
 const CreateProductForm = () => {
   const initialProductData = {
     imageUrl: "",
@@ -230,6 +224,7 @@ const CreateProductForm = () => {
                     onChange={handleChange}
                     label="Third Level Category"
                   >
+                    <MenuItem value="mens_kurta">Mens Kurta</MenuItem>
                     <MenuItem value="top">Tops</MenuItem>
                     <MenuItem value="women_dress">Dresses</MenuItem>
                     <MenuItem value="t-shirts">T-Shirts</MenuItem>

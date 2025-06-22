@@ -64,9 +64,13 @@ const ProductsTable = () => {
     dispatch(deleteProduct(productId));
   };
 
+  //update product
+  const [selectedProduct, setSelectedProduct] = useState(null);
+
   const [openUpdateModal, setOpenUpdateModal] = useState(false);
 
-  const handleOpen = () => {
+  const handleOpen = (product) => {
+    setSelectedProduct(product);
     setOpenUpdateModal(true);
   };
   const handleClose = () => {
@@ -145,7 +149,9 @@ const ProductsTable = () => {
 
                   {/* Update, Delete  */}
                   <TableCell sx={{ textAlign: "center" }}>
-                    <Button onClick={handleOpen} variant="outlined">Update</Button>
+                    <Button onClick={() => handleOpen(item)} variant="outlined">
+                      Update
+                    </Button>
                   </TableCell>
                   <TableCell sx={{ textAlign: "center" }}>
                     <Button
@@ -163,7 +169,11 @@ const ProductsTable = () => {
       </Card>
 
       {/* Update modal  */}
-      <UpdateProductForm handleClose={handleClose} open={openUpdateModal}/>
+      <UpdateProductForm
+        handleClose={handleClose}
+        open={openUpdateModal}
+        product={selectedProduct}
+      />
     </Box>
   );
 };
