@@ -13,13 +13,14 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   deleteProduct,
   findProducts,
 } from "../../redux/customer/product/Action";
 import { useLocation } from "react-router-dom";
+import UpdateProductForm from "./UpdateProductForm";
 
 const ProductsTable = () => {
   const dispatch = useDispatch();
@@ -61,6 +62,15 @@ const ProductsTable = () => {
   const handleDeleteProduct = (productId) => {
     console.log("delete product ", productId);
     dispatch(deleteProduct(productId));
+  };
+
+  const [openUpdateModal, setOpenUpdateModal] = useState(false);
+
+  const handleOpen = () => {
+    setOpenUpdateModal(true);
+  };
+  const handleClose = () => {
+    setOpenUpdateModal(false);
   };
 
   return (
@@ -135,7 +145,7 @@ const ProductsTable = () => {
 
                   {/* Update, Delete  */}
                   <TableCell sx={{ textAlign: "center" }}>
-                    <Button variant="outlined">Update</Button>
+                    <Button onClick={handleOpen} variant="outlined">Update</Button>
                   </TableCell>
                   <TableCell sx={{ textAlign: "center" }}>
                     <Button
@@ -151,6 +161,9 @@ const ProductsTable = () => {
           </Table>
         </TableContainer>
       </Card>
+
+      {/* Update modal  */}
+      <UpdateProductForm handleClose={handleClose} open={openUpdateModal}/>
     </Box>
   );
 };
