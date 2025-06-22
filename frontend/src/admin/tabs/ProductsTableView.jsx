@@ -43,7 +43,7 @@ const ProductsTableView = () => {
       minPrice: "",
       maxPrice: 10000,
       minDiscount: "",
-      sort: "price_low",
+      sort: "",
       pageNumber: 1,
       pageSize: 10,
       stock: "",
@@ -57,17 +57,15 @@ const ProductsTableView = () => {
     category,
   ]);
 
-  // delete product
-  const handleDeleteProduct = (productId) => {
-    console.log("delete product ", productId);
-    dispatch(deleteProduct(productId));
-  };
+  const sortedProducts = [...(customerProducts?.products?.content || [])].sort(
+    (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+  );
   
 
   return (
     <Box sx={{ marginRight: 2}}>
       <Card className="mt-2" sx={{ bgcolor: "#DADADA" }}>
-        <CardHeader title="All Products" />
+        <CardHeader title="Recent Products" />
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 800 }} aria-label="table in dashboard">
             <TableHead>
@@ -84,7 +82,7 @@ const ProductsTableView = () => {
             </TableHead>
             <TableBody>
               
-              {customerProducts?.products?.content?.map((item) => (
+              {sortedProducts.slice(0,10).map((item) => (
                 
                 <TableRow
                   hover
@@ -135,7 +133,7 @@ const ProductsTableView = () => {
                   </TableCell>
                   {/* Discount % */}
                   <TableCell sx={{ textAlign: "center" }}>
-                    {item.discountPersent}
+                    {item.discountPersent}%
                   </TableCell>
                   {/* Sale Price */}
                   <TableCell sx={{ textAlign: "center" }}>

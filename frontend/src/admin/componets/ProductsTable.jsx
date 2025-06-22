@@ -124,7 +124,7 @@ const ProductsTable = () => {
 
                   {/*Discount %, SalePrice, Quantity  */}
                   <TableCell sx={{ textAlign: "center" }}>
-                    {item.discountPersent}
+                    {item.discountPersent}%
                   </TableCell>
                   <TableCell sx={{ textAlign: "center" }}>
                     {item.discountedPrice}
