@@ -24,7 +24,7 @@ const ProductReviewCard = () => {
           <div className="space-y-2">
             <div className="">
               {/* f-name & date */}
-              <p className="font-semibold text-lg">Viraj</p>
+              <p className="font-semibold text-lg">Chamari Rathnayake</p>
               <p className="opacity-70">June 15, 2025</p>
             </div>
 
@@ -40,7 +40,7 @@ const ProductReviewCard = () => {
             </div>
 
             {/* User Review */}
-            <p>Thie dress adds Thie Thie dress adds dress adds a pop of color to your ensemble.</p>
+            <p>High quality material with a flattering cut. These shorts stay cool even in heat and match with almost everything in my wardrobe.</p>
           </div>
         </Grid>
       </Grid>

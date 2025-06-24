@@ -69,7 +69,12 @@ const HomePage = () => {
             data={womenProducts}
             sectionName={"Women's Wear"}
           />
-          <HomeSectionCarousel data={kidsProducts} sectionName={"Kids' Wear"} />
+          <div className="pb-[35px]">
+            <HomeSectionCarousel
+              data={kidsProducts}
+              sectionName={"Kids' Wear"}
+            />
+          </div>
         </div>
       </div>
     </div>
