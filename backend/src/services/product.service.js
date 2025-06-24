@@ -269,13 +269,13 @@ async function getAllProducts(reqQuery) {
   }
 
   //Sorting by Price
-  if (sort) {
-    //Descending for "price_high", ascending otherwise
-    const sortDirection = sort === "price_high" ? -1 : 1;
-
-    //Apply sorting to the query on the 'discountedPrice' field
-    query = query.sort({ discountedPrice: sortDirection });
-  }
+  if (sort === "price_high" || sort === "price_low") {
+  const sortDirection = sort === "price_high" ? -1 : 1;
+  query = query.sort({ discountedPrice: sortDirection });
+} else {
+  // Default to showing most recently created products first
+  query = query.sort({ createdAt: -1 });
+}
 
   // Apply pagination
   //Count total number of products matching the current filter

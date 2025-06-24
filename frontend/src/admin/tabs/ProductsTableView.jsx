@@ -45,7 +45,7 @@ const ProductsTableView = () => {
       minDiscount: "",
       sort: "",
       pageNumber: 1,
-      pageSize: 10,
+      pageSize: 8,
       stock: "",
     };
     dispatch(findProducts(data));
@@ -82,7 +82,7 @@ const ProductsTableView = () => {
             </TableHead>
             <TableBody>
               
-              {sortedProducts.slice(0,10).map((item) => (
+              {sortedProducts.map((item) => (
                 
                 <TableRow
                   hover
