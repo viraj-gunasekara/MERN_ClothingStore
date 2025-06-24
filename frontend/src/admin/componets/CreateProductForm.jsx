@@ -42,10 +42,21 @@ const CreateProductForm = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setProductData((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
+
+    setProductData((prev) => {
+      const updated = { ...prev, [name]: value };
+
+      if (name === "topLevelCategory") {
+        updated.secondLevelCategory = "";
+        updated.thirdLevelCategory = "";
+      }
+
+      if (name === "secondLevelCategory") {
+        updated.thirdLevelCategory = "";
+      }
+
+      return updated;
+    });
   };
 
   const handleSizeChange = (e, index) => {
@@ -77,21 +88,92 @@ const CreateProductForm = () => {
     setProductData(initialProductData);
   };
 
+  // category map
+  const categoryMap = {
+    men: {
+      clothing: [
+        "t_shirts",
+        "shirts",
+        "polos",
+        "trousers",
+        "shorts",
+        "hoodies",
+        "joggers",
+        "active_wear",
+      ],
+      innerwear: ["boxers", "vests", "socks"],
+      accessories: ["wallets", "belts", "caps", "footwear", "perfumes"],
+    },
+    women: {
+      clothing: [
+        "t_shirts",
+        "shirts",
+        "blouses",
+        "skirts",
+        "pants",
+        "shorts",
+        "active_wear",
+      ],
+      innerwear: ["night_wear", "bra", "panties"],
+      accessories: [
+        "hand_bags",
+        "wallets",
+        "footwear",
+        "sunglass",
+        "jewellery",
+        "perfumes",
+      ],
+    },
+    kids: {
+      toys: ["plush_toys", "r_c_toys", "dolls", "board_games"],
+      boys: [
+        "shirts",
+        "t_shirts",
+        "pants",
+        "shorts",
+        "night_wear",
+        "inner_wear",
+      ],
+      girls: [
+        "frocks",
+        "t_shirts",
+        "pants",
+        "shorts",
+        "night_wear",
+        "inner_wear",
+      ],
+    },
+  };
+
+  const secondLevelOptions = productData.topLevelCategory
+    ? Object.keys(categoryMap[productData.topLevelCategory])
+    : [];
+
+  const thirdLevelOptions =
+    productData.topLevelCategory &&
+    productData.secondLevelCategory &&
+    categoryMap[productData.topLevelCategory][productData.secondLevelCategory]
+      ? categoryMap[productData.topLevelCategory][
+          productData.secondLevelCategory
+        ]
+      : [];
+
   return (
     <Box sx={{ padding: 2, paddingLeft: 25 }}>
       <Card className="mt-2 p-6">
         <Fragment>
           <Typography
             variant="h5"
-            sx={{ textAlign: "center", paddingBottom: 3, fontWeight: "semi-bold" }}
+            sx={{
+              textAlign: "center",
+              paddingBottom: 3,
+              fontWeight: "semi-bold",
+            }}
             className="py-3 text-center "
           >
             Add New Product
           </Typography>
-          <form
-            onSubmit={handleSubmit}
-            className="min-h-screen"
-          >
+          <form onSubmit={handleSubmit} className="min-h-screen">
             <Grid container spacing={2}>
               <Grid item size={{ xs: 12 }}>
                 <TextField
@@ -209,12 +291,13 @@ const CreateProductForm = () => {
                     onChange={handleChange}
                     label="Second Level Category"
                   >
-                    <MenuItem value="clothing">Clothing</MenuItem>
-                    <MenuItem value="innerwear">Innerwear</MenuItem>
-                    <MenuItem value="accessories">Accessories</MenuItem>
-                    <MenuItem value="toys">Kids Toys</MenuItem>
-                    <MenuItem value="boys">Boys</MenuItem>
-                    <MenuItem value="girls">Girls</MenuItem>
+                    {secondLevelOptions.map((option) => (
+                      <MenuItem key={option} value={option}>
+                        {option
+                          .replace(/_/g, " ")
+                          .replace(/\b\w/g, (l) => l.toUpperCase())}
+                      </MenuItem>
+                    ))}
                   </Select>
                 </FormControl>
               </Grid>
@@ -227,14 +310,13 @@ const CreateProductForm = () => {
                     onChange={handleChange}
                     label="Third Level Category"
                   >
-                    <MenuItem value="t_shirts">T-shirts</MenuItem>
-                    <MenuItem value="shirts">Shirts</MenuItem>
-                    <MenuItem value="polos">Polos</MenuItem>
-                    <MenuItem value="trousers">Trousers</MenuItem>
-                    <MenuItem value="shorts">Shorts</MenuItem>
-                    <MenuItem value="hoodies">Hoodies</MenuItem>
-                    <MenuItem value="joggers">Joggers</MenuItem>
-                    <MenuItem value="active_wear">Active Wear</MenuItem>
+                    {thirdLevelOptions.map((option) => (
+                      <MenuItem key={option} value={option}>
+                        {option
+                          .replace(/_/g, " ")
+                          .replace(/\b\w/g, (l) => l.toUpperCase())}
+                      </MenuItem>
+                    ))}
                   </Select>
                 </FormControl>
               </Grid>
