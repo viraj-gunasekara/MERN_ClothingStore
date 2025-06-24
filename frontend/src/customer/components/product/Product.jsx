@@ -62,7 +62,7 @@ export default function Product() {
   const colorValue = searchParams.get("color");
   const sizeValue = searchParams.get("size");
   const priceValue = searchParams.get("price");
-  const discount = searchParams.get("discout");
+  const discount = searchParams.get("discount");
   const sortValue = searchParams.get("sort");
   const pageNumber = searchParams.get("page") || 1;
   const stock = searchParams.get("stock");
@@ -114,6 +114,8 @@ export default function Product() {
 
     const data = {
       category: param.levelThree,
+      levelOne: param.levelOne,
+      levelTwo: param.levelTwo,
       colors: colorValue || [],
       sizes: sizeValue || [],
       minPrice,
