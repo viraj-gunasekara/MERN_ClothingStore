@@ -44,9 +44,9 @@ const ProductsTable = () => {
       minPrice: "",
       maxPrice: 10000,
       minDiscount: "",
-      sort: "price_low",
+      sort: "",
       pageNumber: 1,
-      pageSize: 10,
+      pageSize: 11,
       stock: "",
     };
     dispatch(findProducts(data));

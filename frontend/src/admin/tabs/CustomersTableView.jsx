@@ -39,7 +39,7 @@ const CustomersTable = () => {
       <Card className="mt-2" sx={{ bgcolor: "#DADADA" }}>
         <CardHeader title="Recent Customers" />
         <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 400 }} aria-label="table in dashboard">
+          <Table sx={{ minWidth: 450 }} aria-label="table in dashboard">
             <TableHead>
               <TableRow>
                 <TableCell>Email</TableCell>
@@ -48,7 +48,7 @@ const CustomersTable = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {sortedCustomers.slice(0, 10).map((customer) => (
+              {sortedCustomers.slice(0, 11).map((customer) => (
                 <TableRow
                   hover
                   key={customer._id}
