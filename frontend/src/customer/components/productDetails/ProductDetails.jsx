@@ -71,6 +71,30 @@ const productDummy = {
 };
 const reviews = { href: "#", average: 4, totalCount: 117 };
 
+const userReviews = [
+  {
+    name: "Chamari Rathnayake",
+    date: "June 15, 2025",
+    rating: 4.5,
+    review:
+      "High quality material with a flattering cut. These shorts stay cool even in heat and match with almost everything in my wardrobe.",
+  },
+  {
+    name: "Nuwan Perera",
+    date: "June 18, 2025",
+    rating: 4,
+    review:
+      "Really comfortable and stylish shorts. The fabric feels premium and fits true to size. Would definitely buy another color too.",
+  },
+  {
+    name: "Ishara Fernando",
+    date: "June 20, 2025",
+    rating: 5,
+    review:
+      "Perfect summer wear! Super breathable and the fit is great. I love how easy it is to style these.",
+  },
+];
+
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
@@ -231,6 +255,9 @@ export default function ProductDetails() {
               <h1 className="text-lg lg:text-xl tracking-tight text-gray-900 opacity-60 pt-1">
                 {customerProducts.product?.title}
               </h1>
+              <p className="font-semibold opacity-50 pt-2">
+                {customerProducts.product?.color}
+              </p>
             </div>
 
             {/* Options */}
@@ -388,8 +415,14 @@ export default function ProductDetails() {
             <Grid container spacing={7}>
               <Grid size={{ xs: 7 }}>
                 <div className="space-y-5">
-                  {[1, 1, 1].map((item) => (
-                    <ProductReviewCard />
+                  {userReviews.map((review, index) => (
+                    <ProductReviewCard
+                      key={index}
+                      name={review.name}
+                      date={review.date}
+                      rating={review.rating}
+                      review={review.review}
+                    />
                   ))}
                 </div>
               </Grid>

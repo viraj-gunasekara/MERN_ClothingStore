@@ -1,12 +1,12 @@
 import { Avatar, Box, Grid, Rating } from "@mui/material";
 import React from "react";
 
-const ProductReviewCard = () => {
+const ProductReviewCard = ({ name, date, rating, review, avatarLetter }) => {
   return (
     <div>
       <Grid container spacing={2} gap={3}>
         {/* item 1 */}
-        <Grid item size={{xs:1}}>
+        <Grid item size={{ xs: 1 }}>
           <Box>
             <Avatar
               className="text-white"
@@ -14,37 +14,32 @@ const ProductReviewCard = () => {
               alt=""
               src=""
             >
-              V
+              {avatarLetter || name?.charAt(0)}
             </Avatar>
           </Box>
         </Grid>
 
         {/* item 2 */}
-        <Grid item size={{xs:9}} wrap="wrap">
+        <Grid item size={{ xs: 9 }} wrap="wrap">
           <div className="space-y-2">
-            <div className="">
-              {/* f-name & date */}
-              <p className="font-semibold text-lg">Viraj</p>
-              <p className="opacity-70">June 15, 2025</p>
+            <div>
+              <p className="font-semibold text-lg">{name}</p>
+              <p className="opacity-70">{date}</p>
             </div>
 
-            {/* Rating section */}
             <div>
               <Rating
-                value={4.5}
+                value={rating}
                 name="half-rating"
-                defaultValue={2.5}
                 precision={0.5}
                 readOnly
               />
             </div>
 
-            {/* User Review */}
-            <p>Thie dress adds Thie Thie dress adds dress adds a pop of color to your ensemble.</p>
+            <p>{review}</p>
           </div>
         </Grid>
       </Grid>
-      <div className="col-span-1 flex"></div>
     </div>
   );
 };
