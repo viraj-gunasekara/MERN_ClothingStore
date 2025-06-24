@@ -11,8 +11,8 @@ const ProductCard = ({ product }) => {
       <div className="h-[20rem]">
         <img
           className="h-full w-full object-cover object-left-top"
-          src={product.imageUrl}
-          alt=""
+          src={product.imageUrl || "https://i.ibb.co/7JhsRC51/Untitled-design.png"}
+          alt={product.title}
         />
       </div>
 
