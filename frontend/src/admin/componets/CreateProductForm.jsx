@@ -210,8 +210,11 @@ const CreateProductForm = () => {
                     label="Second Level Category"
                   >
                     <MenuItem value="clothing">Clothing</MenuItem>
+                    <MenuItem value="innerwear">Innerwear</MenuItem>
                     <MenuItem value="accessories">Accessories</MenuItem>
-                    <MenuItem value="brands">Brands</MenuItem>
+                    <MenuItem value="toys">Kids Toys</MenuItem>
+                    <MenuItem value="boys">Boys</MenuItem>
+                    <MenuItem value="girls">Girls</MenuItem>
                   </Select>
                 </FormControl>
               </Grid>
@@ -224,12 +227,14 @@ const CreateProductForm = () => {
                     onChange={handleChange}
                     label="Third Level Category"
                   >
-                    <MenuItem value="mens_kurta">Mens Kurta</MenuItem>
-                    <MenuItem value="top">Tops</MenuItem>
-                    <MenuItem value="women_dress">Dresses</MenuItem>
-                    <MenuItem value="t-shirts">T-Shirts</MenuItem>
-                    <MenuItem value="saree">Saree</MenuItem>
-                    <MenuItem value="lengha_choli">Lengha Choli</MenuItem>
+                    <MenuItem value="t_shirts">T-shirts</MenuItem>
+                    <MenuItem value="shirts">Shirts</MenuItem>
+                    <MenuItem value="polos">Polos</MenuItem>
+                    <MenuItem value="trousers">Trousers</MenuItem>
+                    <MenuItem value="shorts">Shorts</MenuItem>
+                    <MenuItem value="hoodies">Hoodies</MenuItem>
+                    <MenuItem value="joggers">Joggers</MenuItem>
+                    <MenuItem value="active_wear">Active Wear</MenuItem>
                   </Select>
                 </FormControl>
               </Grid>

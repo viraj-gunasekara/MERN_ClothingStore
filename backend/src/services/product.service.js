@@ -93,7 +93,10 @@ async function updateProduct(productId, reqData) {
   // 1. Find or create category hierarchy
   let topLevel = await Category.findOne({ name: reqData.topLevelCategory });
   if (!topLevel) {
-    topLevel = await new Category({ name: reqData.topLevelCategory, level: 1 }).save();
+    topLevel = await new Category({
+      name: reqData.topLevelCategory,
+      level: 1,
+    }).save();
   }
 
   let secondLevel = await Category.findOne({
@@ -136,7 +139,6 @@ async function updateProduct(productId, reqData) {
   return updatedProduct;
 }
 
-
 /* helper functions */
 // Find a product by ID & its belong category
 async function findProductById(id) {
@@ -159,6 +161,24 @@ async function findProductById(id) {
 
   //if found, return the product document
   return product;
+}
+
+// Helper to find category by full hierarchy
+async function getCategoryByHierarchy(levelOne, levelTwo, levelThree) {
+  const parentParent = await Category.findOne({ name: levelOne });
+  if (!parentParent) return null;
+
+  const parent = await Category.findOne({
+    name: levelTwo,
+    parentCategory: parentParent._id,
+  });
+  if (!parent) return null;
+
+  const category = await Category.findOne({
+    name: levelThree,
+    parentCategory: parent._id,
+  });
+  return category;
 }
 
 // Get all products with
@@ -195,12 +215,19 @@ async function getAllProducts(reqQuery) {
 
   //Filter by Category
   if (category) {
-    const existCategory = await Category.findOne({ name: category });
-    if (existCategory)
-      query = query.where("category").equals(existCategory._id);
-    else {
-      return { content: [], currentPage: 1, totalPages: 1 };
+    let fullCategory = category;
+    if (reqQuery.levelOne && reqQuery.levelTwo) {
+      fullCategory = await getCategoryByHierarchy(
+        reqQuery.levelOne,
+        reqQuery.levelTwo,
+        category
+      );
+    } else {
+      fullCategory = await Category.findOne({ name: category });
     }
+
+    if (fullCategory) query = query.where("category").equals(fullCategory._id);
+    else return { content: [], currentPage: 1, totalPages: 1 };
   }
 
   //Filter by Color
@@ -226,8 +253,8 @@ async function getAllProducts(reqQuery) {
   }
 
   //Filter by min Dis value
-  if (minDiscount) {
-    query = query.where("discountPersent").gt(minDiscount);
+  if (minDiscount !== undefined && minDiscount !== null) {
+    query = query.where("discountPersent").gte(Number(minDiscount));
   }
 
   //Filter by Stock Status
@@ -298,4 +325,5 @@ module.exports = {
   getAllProducts,
   createMultipleProduct,
   searchProduct,
+  getCategoryByHierarchy,
 };
